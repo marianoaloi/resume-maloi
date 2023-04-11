@@ -1,0 +1,35 @@
+<form [formGroup]="profileForm" (ngSubmit)="onFormSubmit()">
+    <table>
+        <tr>
+            <td><label for="name">Name:</label></td>
+            <td><input id="name" type="text" formControlName="name"><label
+                    *ngIf="profileForm.get('name')?.hasError('required')" class="error">
+                    Your name required. </label></td>
+            <td><label for="telephone">Telephone:</label></td>
+            <td><input id="telephone" type="text" formControlName="telephone"><label
+                    *ngIf="profileForm.get('telephone')?.hasError('required')" class="error">
+                    Telephone name required. </label></td>
+        </tr>
+        <tr formArrayName="skills" class="skillGroup">
+            <td colspan="4">
+                <h2>Skylls</h2><button type="button" (click)="addSkylls()">+ Add another Skylls</button>
+            </td>
+        </tr>
+        <tr *ngFor="let skillItem of skills.controls; let i=index" [formGroupName]="i" class="skills">
+
+            <td>Name {{i+1}}:</td>
+            <td><input id="name" type="text" formControlName="name"><label
+                    *ngIf="skillItem.get('name')?.hasError('required')" class="error">
+                    Skill name required. </label></td>
+            <td>vValue {{i+1}}:</td>
+            <td><input id="value" type="text" formControlName="value"><label
+                    *ngIf="skillItem.get('value')?.hasError('required')" class="error">
+                    Skill value required. </label></td>
+            <td><button type="button" (click)="deleteSkyll(i)">Delete {{i+1}}</button></td>
+        </tr>
+    </table>
+
+
+
+    <button>SUBMIT</button>
+</form>

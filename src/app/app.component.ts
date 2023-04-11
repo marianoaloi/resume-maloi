@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'resume-maloi';
+
+
+  save() {
+    throw new Error('Method not implemented.');
+  }
+  open() {
+    throw new Error('Method not implemented.');
+  }
+  title = 'Resume-Maloi';
 }
