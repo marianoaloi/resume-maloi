@@ -10,6 +10,7 @@ export class ResumeComponent {
   profileForm = this.fb.group({
     name: ['', Validators.required],
     telephone: ['', Validators.required],
+    presentation: ['', Validators.required],
     socialmedias: this.fb.array([]),
     skills: this.fb.array([]),
     historicals: this.fb.array([]),
@@ -77,11 +78,11 @@ export class ResumeComponent {
     const historicalComponent = this.fb.group({
       company: [""],
       start: [""],
-      Saida: [""],
-      Tecnical: [""],
-      Manager: [""],
-      Tecnical_short: [""],
-      Manager_short: [""],
+      end: [""],
+      tecnical: [""],
+      manager: [""],
+      tecnical_short: [""],
+      manager_short: [""],
     })
     this.historicals.push(historicalComponent);
   }

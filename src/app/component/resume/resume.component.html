@@ -20,6 +20,12 @@
                         Telephone name required. </mat-error></mat-form-field>
             </td>
         </tr>
+        <tr>
+            <td colspan="2"><mat-form-field><mat-label for="company">Presentation</mat-label>
+                    <input placeholder="Presentation" matInput formControlName="presentation"><mat-error
+                        *ngIf="profileForm.get('presentation')?.hasError('required')" class="error">
+                        Historical company required. </mat-error></mat-form-field></td>
+        </tr>
         <tr formArrayName="skills" class="arrayGroup">
             <td colspan="4">
                 <h2>Skylls<a mat-icon-button color="primary" (click)="addskill()"><mat-icon>add</mat-icon></a></h2>
@@ -33,16 +39,21 @@
 
                             <mat-form-field><mat-label for="name">Name {{i+1}}</mat-label>
                                 <input placeholder="Name {{i+1}}" matInput formControlName="name"><mat-error
-                                    *ngIf="profileForm.get('name')?.hasError('required')" class="error">
+                                    *ngIf="skillItem.get('name')?.hasError('required')" class="error">
                                     Skill name required. </mat-error></mat-form-field>
                         </td>
 
                         <td>
 
-                            <mat-form-field><mat-label for="value">Value {{i+1}}</mat-label>
-                                <input placeholder="Value {{i+1}}" matInput formControlName="value"><mat-error
-                                    *ngIf="profileForm.get('value')?.hasError('required')" class="error">
-                                    Skill value required. </mat-error></mat-form-field>
+                            <mat-label for="value">Value {{i+1}}</mat-label>
+
+                            <mat-slider min="0" max="100" step="5" showTickMarks discrete [displayWith]="formatLabel">
+                                <input matSliderThumb formControlName="value"> {{skillItem.get('value')?.value}}
+                            </mat-slider>
+
+
+                            <mat-error *ngIf="profileForm.get('value')?.hasError('required')" class="error">
+                                Skill value required. </mat-error>
                         </td>
 
 
@@ -61,20 +72,122 @@
                     <tr *ngFor="let socialmediaItem of socialmedias.controls; let i=index" [formGroupName]="i"
                         class="socialmedias">
 
-                        <td>Name {{i+1}}:</td>
-                        <td><input id="name" type="text" formControlName="name"><label
-                                *ngIf="socialmediaItem.get('name')?.hasError('required')" class="error">
-                                socialmedia name required. </label></td>
-                        <td>URL {{i+1}}:</td>
-                        <td><input id="url" type="text" formControlName="url"><label
-                                *ngIf="socialmediaItem.get('url')?.hasError('required')" class="error">
-                                socialmedia url required. </label></td>
+                        <td>
+
+                            <mat-form-field><mat-label for="name">Name {{i+1}}</mat-label>
+                                <input placeholder="Name {{i+1}}" matInput formControlName="name"><mat-error
+                                    *ngIf="socialmediaItem.get('name')?.hasError('required')" class="error">
+                                    Social Media name required. </mat-error></mat-form-field>
+                        </td>
+
+                        <td><mat-form-field class="urlAddress">
+                                <mat-label for="value">URL {{i+1}}
+                                </mat-label>
+                                <input id="url" type="text" matInput formControlName="url"><mat-error
+                                    *ngIf="socialmediaItem.get('url')?.hasError('required')" class="error">
+                                    Social Media url required. </mat-error>
+                            </mat-form-field>
+                        </td>
                         <td><button mat-raised-button color="warn" (click)="deletesocialmedia(i)">Delete
                                 {{i+1}}</button></td>
                     </tr>
                 </table>
             </td>
         </tr>
+
+
+        <tr formArrayName="historicals" class="arrayGroup">
+            <td colspan="4">
+                <h2>Historical<a mat-icon-button color="primary" (click)="addhistorical()"><mat-icon>add</mat-icon></a>
+                </h2>
+                <table>
+
+                    <tr *ngFor="let socialmediaItem of historicals.controls; let i=index" [formGroupName]="i"
+                        class="historicals">
+
+                        <td>
+                            <table>
+                                <tr>
+                                    <td colspan="2"><mat-form-field><mat-label for="company">Company {{i+1}}</mat-label>
+                                            <input placeholder="Company {{i+1}}" matInput
+                                                formControlName="company"><mat-error
+                                                *ngIf="socialmediaItem.get('company')?.hasError('required')"
+                                                class="error">
+                                                Historical company required. </mat-error></mat-form-field></td>
+                                    <td><mat-form-field><mat-label for="start">Start {{i+1}}</mat-label>
+                                            <input placeholder="Start {{i+1}}" matInput
+                                                formControlName="start"><mat-error
+                                                *ngIf="socialmediaItem.get('start')?.hasError('required')"
+                                                class="error">
+                                                Historical start required. </mat-error></mat-form-field></td>
+                                    <td><mat-form-field><mat-label for="end">End {{i+1}}</mat-label>
+                                            <input placeholder="End {{i+1}}" matInput formControlName="end"><mat-error
+                                                *ngIf="socialmediaItem.get('end')?.hasError('required')" class="error">
+                                                Historical end required. </mat-error></mat-form-field></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><mat-form-field class="tecnical">
+                                            <mat-label for="tecnical">Tecnical {{i+1}}
+                                            </mat-label>
+                                            <textarea id="tecnical" type="text" matInput
+                                                formControlName="tecnical"></textarea><mat-error
+                                                *ngIf="socialmediaItem.get('tecnical')?.hasError('required')"
+                                                class="error">
+                                                Historical tecnical required. </mat-error>
+                                        </mat-form-field></td>
+                                    <td colspan="2"><mat-form-field class="tecnical_short">
+                                            <mat-label for="tecnical_short">Tecnical short {{i+1}}
+                                            </mat-label>
+                                            <textarea id="tecnical_short" type="text" matInput
+                                                formControlName="tecnical_short"></textarea><mat-error
+                                                *ngIf="socialmediaItem.get('tecnical_short')?.hasError('required')"
+                                                class="error">
+                                                Historical tecnical short required. </mat-error>
+                                        </mat-form-field></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><mat-form-field class="manager">
+                                            <mat-label for="manager">Manager {{i+1}}
+                                            </mat-label>
+                                            <textarea id="manager" type="text" matInput
+                                                formControlName="manager"></textarea><mat-error
+                                                *ngIf="socialmediaItem.get('manager')?.hasError('required')"
+                                                class="error">
+                                                Historical manager required. </mat-error>
+                                        </mat-form-field></td>
+                                    <td colspan="2"><mat-form-field class="manager_short">
+                                            <mat-label for="manager_short">manager_short {{i+1}}
+                                            </mat-label>
+                                            <textarea id="manager_short" type="text" matInput
+                                                formControlName="manager_short"></textarea><mat-error
+                                                *ngIf="socialmediaItem.get('manager_short')?.hasError('required')"
+                                                class="error">
+                                                Historical manager short required. </mat-error>
+                                        </mat-form-field></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><button mat-raised-button color="warn"
+                                            (click)="deletesocialmedia(i)">Delete
+                                            {{i+1}}</button></td>
+                                </tr>
+                            </table>
+
+
+
+
+
+
+
+
+
+
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
     </table>
 
 
