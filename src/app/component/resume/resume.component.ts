@@ -127,8 +127,8 @@ export class ResumeComponent {
     const certificateComponent = this.fb.group({
       name: [""],
       institute: [""],
-      Credential: [""],
-      Issued: [""],
+      credential: [""],
+      issued: [""],
     })
     this.certificates.push(certificateComponent);
   }
