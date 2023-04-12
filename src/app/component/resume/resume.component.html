@@ -1,31 +1,79 @@
 <form [formGroup]="profileForm" (ngSubmit)="onFormSubmit()">
     <table>
         <tr>
-            <td><label for="name">Name:</label></td>
-            <td><input id="name" type="text" formControlName="name"><label
-                    *ngIf="profileForm.get('name')?.hasError('required')" class="error">
-                    Your name required. </label></td>
-            <td><label for="telephone">Telephone:</label></td>
-            <td><input id="telephone" type="text" formControlName="telephone"><label
-                    *ngIf="profileForm.get('telephone')?.hasError('required')" class="error">
-                    Telephone name required. </label></td>
-        </tr>
-        <tr formArrayName="skills" class="skillGroup">
-            <td colspan="4">
-                <h2>Skylls</h2><button type="button" (click)="addSkylls()">+ Add another Skylls</button>
+            <td>
+
+                <mat-form-field>
+
+
+                    <mat-label for="name">Name</mat-label>
+                    <input placeholder="name" matInput formControlName="name"><mat-error
+                        *ngIf="profileForm.get('name')?.hasError('required')" class="error">
+                        Your name required. </mat-error>
+                </mat-form-field>
+            </td>
+            <td>
+
+                <mat-form-field><mat-label for="telephone">Telephone</mat-label>
+                    <input placeholder="telephone" matInput formControlName="telephone"><mat-error
+                        *ngIf="profileForm.get('telephone')?.hasError('required')" class="error">
+                        Telephone name required. </mat-error></mat-form-field>
             </td>
         </tr>
-        <tr *ngFor="let skillItem of skills.controls; let i=index" [formGroupName]="i" class="skills">
+        <tr formArrayName="skills" class="arrayGroup">
+            <td colspan="4">
+                <h2>Skylls<a mat-icon-button color="primary" (click)="addskill()"><mat-icon>add</mat-icon></a></h2>
+                <table>
 
-            <td>Name {{i+1}}:</td>
-            <td><input id="name" type="text" formControlName="name"><label
-                    *ngIf="skillItem.get('name')?.hasError('required')" class="error">
-                    Skill name required. </label></td>
-            <td>vValue {{i+1}}:</td>
-            <td><input id="value" type="text" formControlName="value"><label
-                    *ngIf="skillItem.get('value')?.hasError('required')" class="error">
-                    Skill value required. </label></td>
-            <td><button type="button" (click)="deleteSkyll(i)">Delete {{i+1}}</button></td>
+                    <tr *ngFor="let skillItem of skills.controls; let i=index" [formGroupName]="i" class="skills">
+
+
+
+                        <td>
+
+                            <mat-form-field><mat-label for="name">Name {{i+1}}</mat-label>
+                                <input placeholder="Name {{i+1}}" matInput formControlName="name"><mat-error
+                                    *ngIf="profileForm.get('name')?.hasError('required')" class="error">
+                                    Skill name required. </mat-error></mat-form-field>
+                        </td>
+
+                        <td>
+
+                            <mat-form-field><mat-label for="value">Value {{i+1}}</mat-label>
+                                <input placeholder="Value {{i+1}}" matInput formControlName="value"><mat-error
+                                    *ngIf="profileForm.get('value')?.hasError('required')" class="error">
+                                    Skill value required. </mat-error></mat-form-field>
+                        </td>
+
+
+                        <td><button mat-raised-button color="warn" (click)="deleteskill(i)">Delete {{i+1}}</button></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr formArrayName="socialmedias" class="arrayGroup">
+            <td colspan="4">
+                <h2>Social Media<a mat-icon-button color="primary"
+                        (click)="addsocialmedia()"><mat-icon>add</mat-icon></a>
+                </h2>
+                <table>
+
+                    <tr *ngFor="let socialmediaItem of socialmedias.controls; let i=index" [formGroupName]="i"
+                        class="socialmedias">
+
+                        <td>Name {{i+1}}:</td>
+                        <td><input id="name" type="text" formControlName="name"><label
+                                *ngIf="socialmediaItem.get('name')?.hasError('required')" class="error">
+                                socialmedia name required. </label></td>
+                        <td>URL {{i+1}}:</td>
+                        <td><input id="url" type="text" formControlName="url"><label
+                                *ngIf="socialmediaItem.get('url')?.hasError('required')" class="error">
+                                socialmedia url required. </label></td>
+                        <td><button mat-raised-button color="warn" (click)="deletesocialmedia(i)">Delete
+                                {{i+1}}</button></td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 
