@@ -1,8 +1,10 @@
 {
   "name": "resume-maloi",
   "version": "0.0.0",
+  "main": "app.js",
   "scripts": {
     "ng": "ng",
+    "startEle": "ng build --source-map --base-href ./ && electron .",
     "start": "ng serve --host 0.0.0.0 --disable-host-check",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -20,6 +22,7 @@
     "@angular/platform-browser": "^15.2.0",
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
+    "ngx-electron": "^2.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -29,6 +32,7 @@
     "@angular/cli": "~15.2.2",
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
+    "electron": "^24.1.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

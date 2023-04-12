@@ -1,3 +1,7 @@
+<div class="butthonsActions">
+    <button mat-raised-button mat-button (click)="open()">Open</button>
+    <button mat-raised-button mat-button (click)="save()">Save</button>
+</div>
 <form [formGroup]="profileForm" (ngSubmit)="onFormSubmit()">
     <table>
         <tr>
@@ -28,7 +32,7 @@
         </tr>
         <tr formArrayName="skills" class="arrayGroup">
             <td colspan="4">
-                <h2>Skylls<a mat-icon-button color="primary" (click)="addskill()"><mat-icon>add</mat-icon></a></h2>
+                <h2>Skylls<a mat-icon-button color="primary" (click)="addskills()"><mat-icon>add</mat-icon></a></h2>
                 <table>
 
                     <tr *ngFor="let skillItem of skills.controls; let i=index" [formGroupName]="i" class="skills">
@@ -47,7 +51,8 @@
 
                             <mat-label for="value">Value {{i+1}}</mat-label>
 
-                            <mat-slider min="0" max="100" step="5" showTickMarks discrete [displayWith]="formatLabel">
+                            <mat-slider min="0" max="100" step="5" showTickMarks discrete [displayWith]="formatLabel"
+                                class="sliderValue">
                                 <input matSliderThumb formControlName="value"> {{skillItem.get('value')?.value}}
                             </mat-slider>
 
@@ -65,7 +70,7 @@
         <tr formArrayName="socialmedias" class="arrayGroup">
             <td colspan="4">
                 <h2>Social Media<a mat-icon-button color="primary"
-                        (click)="addsocialmedia()"><mat-icon>add</mat-icon></a>
+                        (click)="addsocialmedias()"><mat-icon>add</mat-icon></a>
                 </h2>
                 <table>
 
@@ -98,7 +103,7 @@
 
         <tr formArrayName="historicals" class="arrayGroup">
             <td colspan="4">
-                <h2>Historical<a mat-icon-button color="primary" (click)="addhistorical()"><mat-icon>add</mat-icon></a>
+                <h2>Historical<a mat-icon-button color="primary" (click)="addhistoricals()"><mat-icon>add</mat-icon></a>
                 </h2>
                 <table>
 
@@ -191,7 +196,7 @@
         <tr formArrayName="certificates" class="arrayGroup">
             <td colspan="4">
                 <h2>Certificate<a mat-icon-button color="primary"
-                        (click)="addcertificate()"><mat-icon>add</mat-icon></a>
+                        (click)="addcertificates()"><mat-icon>add</mat-icon></a>
                 </h2>
                 <table>
 
