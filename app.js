@@ -25,7 +25,7 @@ function createWindow() {
         })
     );
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', function () {
         mainWindow = null
@@ -41,15 +41,21 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
     if (mainWindow === null) createWindow()
 })
-
+var fileGlobal;
 ipcMain.on('open', async (event, dataScreen) => {
-    let files = await dialog.showOpenDialog({ properties: ['openFile'], title: "Open your resume" })
+
+    let options = { filters: ["*.json"], properties: ['openFile'], title: "Open your resume" }
+    if (fileGlobal)
+        options["defaultPath"] = fileGlobal
+    let files = await dialog.showOpenDialog(options)
     if (!files.canceled) {
         fs.readFile(files.filePaths[0], 'utf8', (err, data) => {
             if (err)
                 console.error(err)
-            else
+            else {
                 event.sender.send('fileToOpen', JSON.parse(data));
+                fileGlobal = files.filePaths[0]
+            }
         })
 
     }
@@ -57,16 +63,30 @@ ipcMain.on('open', async (event, dataScreen) => {
 })
 
 
-ipcMain.on('save', async (event, dataScreen) => {
-    let files = await dialog.showSaveDialog({ properties: ['saveFile'], title: "Save your resume" })
-    if (!files.canceled) {
-        fs.readFile(files.filePaths[0], (err, data) => {
-            if (err)
-                console.error(err)
-            else
-                event.sender.send('fileTosave', data);
-        })
+ipcMain.on('save', async (event, dataScreen, autosave) => {
+    let data = JSON.stringify(dataScreen, null, 4)
+    if (autosave && fileGlobal) {
+        save(fileGlobal, data, event)
+    } else {
+        let options = { filters: ["*.json"], properties: ['saveFile',], title: "Save your resume" }
+        if (fileGlobal)
+            options["defaultPath"] = fileGlobal
+        let files = await dialog.showSaveDialog(options)
+        if (!files.canceled) {
+            let file = fileGlobal = files.filePath
 
+            save(file, data, event)
+
+        }
     }
 
 })
+
+const save = (file, data, event) => {
+    fs.writeFile(file, data, (err) => {
+        if (err) throw err;
+        console.log('Data written to file');
+    })
+
+    event.sender.send('fileTosave', `File ${file} saved`);
+}
