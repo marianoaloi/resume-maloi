@@ -53,6 +53,10 @@ mat-form-field {
   right: 3px;
   top: 3px;
   position: fixed;
+  z-index: 9;
+  background: white;
+  border: black solid;
+  padding: 5px;
 }
 
 td.tdDelete {
@@ -67,4 +71,22 @@ td.tdDelete {
 .saveSnack>div>div>div>div>simple-snack-bar>.mat-mdc-snack-bar-label {
 
   background: darkred;
+}
+
+.datafield {
+  width: 206px;
+}
+
+
+mat-form-field:has(textarea) {
+  height: 400px;
+}
+
+
+.historicashort {
+  width: 32%;
+}
+
+.historicallong {
+  width: 66%;
 }

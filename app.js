@@ -9,23 +9,20 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        icon: path.join(__dirname, `dist/resume-maloi/favicon.ico`),
+        icon: path.join(__dirname, `/dist/resume-maloi/favicon.ico`),
         webPreferences: {
             // nodeIntegration: true,
             // contextIsolation: true,
             nodeIntegration: true, enableRemoteModule: true, contextIsolation: false
+            ,
+
+            spellcheck: true
         }
     })
 
-    mainWindow.loadURL(
-        url.format({
-            pathname: path.join(__dirname, `dist/resume-maloi/index.html`),
-            protocol: "file:",
-            slashes: true
-        })
-    );
+    mainWindow.loadFile(path.join(__dirname, `/dist/resume-maloi/index.html`));
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', function () {
         mainWindow = null
@@ -42,6 +39,7 @@ app.on('activate', function () {
     if (mainWindow === null) createWindow()
 })
 var fileGlobal;
+var lastSaved = new Date()
 ipcMain.on('open', async (event, dataScreen) => {
 
     let options = { filters: ["*.json"], properties: ['openFile'], title: "Open your resume" }
@@ -49,22 +47,37 @@ ipcMain.on('open', async (event, dataScreen) => {
         options["defaultPath"] = fileGlobal
     let files = await dialog.showOpenDialog(options)
     if (!files.canceled) {
-        fs.readFile(files.filePaths[0], 'utf8', (err, data) => {
-            if (err)
-                console.error(err)
-            else {
-                event.sender.send('fileToOpen', JSON.parse(data));
-                fileGlobal = files.filePaths[0]
-            }
+        fileGlobal = files.filePaths[0]
+        fs.watch(fileGlobal, (eventType, filename) => {
+            fs.stat(fileGlobal, function (err, stats) {
+                if (stats) {
+                    var mtime = stats.mtime;
+                    if ((lastSaved) != (mtime)) {
+                        console.log(`Evento ${eventType} arquivo mudado as ${mtime.getTime()} e tem no sistema lastSaved ${lastSaved.getTime()}`);
+                        openfile(event)
+                    }
+                }
+            });
         })
+        openfile(event)
 
     }
 
 })
 
+const openfile = (event) => {
+    fs.readFile(fileGlobal, 'utf8', (err, data) => {
+        if (err)
+            console.error(err)
+        else {
+            event.sender.send('fileToOpen', JSON.parse(data));
+
+        }
+    })
+}
 
 ipcMain.on('save', async (event, dataScreen, autosave) => {
-    let data = JSON.stringify(dataScreen, null, 4)
+    let data = dataScreen
     if (autosave && fileGlobal) {
         save(fileGlobal, data, event)
     } else {
@@ -83,9 +96,10 @@ ipcMain.on('save', async (event, dataScreen, autosave) => {
 })
 
 const save = (file, data, event) => {
+    lastSaved = new Date()
     fs.writeFile(file, data, (err) => {
         if (err) throw err;
-        console.log('Data written to file');
+        console.log('Data written to file ', lastSaved);
     })
 
     event.sender.send('fileTosave', `File ${file} saved`);

@@ -1,12 +1,14 @@
-import { Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Moment } from 'moment-timezone';
 import { ElectronService } from 'ngx-electron';
 import * as moment from 'moment-timezone';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { resume } from 'src/app/temp';
 
 // Depending on whether rollup is used, moment needs to be imported differently.
 // Since Moment.js doesn't have a default export, we normally need to import using the `* as`
@@ -60,19 +62,22 @@ export class ResumeComponent {
       ctrlValue = moment()
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
+
     dateField.setValue(ctrlValue);
     datepicker.close();
   }
 
   itemChange() {
     console.log("teste");
-    
+
     this.save()
   }
   save() {
 
     if (this._electronService.isElectronApp) {
-      this._electronService.ipcRenderer.send('save', this.profileForm.value, this.autosave.nativeElement.checked);
+      let valueResume = JSON.stringify(this.profileForm.value, null, 4)
+      let autosave = this.autosave.nativeElement.checked
+      this._electronService.ipcRenderer.send('save', valueResume, autosave);
 
       this._electronService.ipcRenderer.once('fileTosave', (event, message) => {
         console.log(message)
@@ -86,17 +91,18 @@ export class ResumeComponent {
     }
   }
   open() {
-    this.clearskills()
-    this.clearsocialmedias()
-    this.clearhistoricals()
-    this.cleareducations()
-    this.clearcertificates()
     if (this._electronService.isElectronApp) {
       this._electronService.ipcRenderer.send('open', new Date().toISOString());
 
       this._electronService.ipcRenderer.once('fileToOpen', (event, resumeObject) => {
-        // console.log(resumeObject)
 
+        this.clearskills(); this.resetskills();
+        this.clearsocialmedias(); this.resetsocialmedias();
+        this.clearhistoricals(); this.resethistoricals();
+        this.cleareducations(); this.reseteducations();
+        this.clearcertificates(); this.resetcertificates();
+
+        this.autosave.nativeElement.checked = true
         this.transformJsonForm(resumeObject, Object.entries(this.profileForm.controls))
       })
     } else {
@@ -122,6 +128,7 @@ export class ResumeComponent {
                 case 'addskills': this.addskills(); break;
                 case 'addsocialmedias': this.addsocialmedias(); break;
                 case 'addhistoricals': this.addhistoricals(); break;
+                case 'addlanguages': this.addlanguages(); break;
                 case 'addeducations': this.addeducations(); break;
                 case 'addcertificates': this.addcertificates(); break;
 
@@ -147,65 +154,7 @@ export class ResumeComponent {
     });
   }
   mockJson(): object {
-    return {
-      "name": "Mariano Aloi",
-      "telephone": "+55 (21) 98222-4739",
-      "presentation": "Ola eu sou o Malkoi",
-      "socialmedias": [
-        {
-          "name": "Linkedin",
-          "url": "https://www.linkedin.com/in/maloi/"
-        },
-        {
-          "name": "Github",
-          "url": "https://github.com/marianoaloi"
-        }
-      ],
-      "historicals": [
-        {
-          "company": "Vale S.A.",
-          "start": "2014-02-10",
-          "end": "2023-03-16",
-          "tecnical": "",
-          "manager": "",
-          "tecnical_short": "",
-          "manager_short": ""
-        }
-      ],
-      "educations": [
-        {
-          "school": "Estácio de Sá",
-          "degree": "Bachelor of Laws",
-          "start": "2015-02-01",
-          "end": "2020-01-01"
-        }
-      ],
-      "certificates": [
-        {
-          "name": "Project Management Professional (PMP®)",
-          "institute": "Project Management Institute (PMI)",
-          "credential": "PMP® #1532364",
-          "issued": "2012-08"
-        }
-      ],
-      "skills": [
-
-        { "name": "Java", "value": 100 },
-        { "name": "Python", "value": 100 },
-        { "name": "NodeJS", "value": 100 },
-        { "name": "Kubernates", "value": 100 },
-        { "name": "Docker", "value": 100 },
-        { "name": "Unix", "value": 100 },
-        { "name": "Project Manager", "value": 100 },
-        { "name": "Scrum", "value": 100 },
-        { "name": "DevOps", "value": 100 },
-        { "name": "Tensorflow", "value": 30 },
-        { "name": "(Py)Torch", "value": 30 },
-        { "name": "Azure", "value": 70 },
-        { "name": "GCP", "value": 70 }
-
-      ]
-    };
+    return resume;
   }
   profileForm = this.fb.group({
     name: ['', Validators.required],
@@ -213,13 +162,14 @@ export class ResumeComponent {
     presentation: ['', Validators.required],
     socialmedias: this.fb.array([]),
     skills: this.fb.array([]),
+    languages: this.fb.array([]),
     historicals: this.fb.array([]),
     educations: this.fb.array([]),
     certificates: this.fb.array([]),
 
   });
 
-  constructor(private fb: FormBuilder, private _electronService: ElectronService, private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private _electronService: ElectronService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
 
   }
 
@@ -240,7 +190,7 @@ export class ResumeComponent {
     this.skills.push(skillComponent);
   }
   deleteskill(index: number) {
-    this.skills.removeAt(index)
+    this.confirmDelete("skills", this.skills, index)
   }
   resetskills() {
     this.skills.reset()
@@ -255,13 +205,13 @@ export class ResumeComponent {
   }
   addsocialmedias() {
     const socialmediaComponent = this.fb.group({
-      name: [""],
-      url: [""],
+      name: ["", Validators.required],
+      url: ["", Validators.required],
     })
     this.socialmedias.push(socialmediaComponent);
   }
   deletesocialmedia(index: number) {
-    this.socialmedias.removeAt(index)
+    this.confirmDelete("socialmedias", this.socialmedias, index)
   }
   resetsocialmedias() {
     this.socialmedias.reset()
@@ -270,24 +220,48 @@ export class ResumeComponent {
     this.socialmedias.clear()
   }
 
+  /* Language */
+  get languages(): FormArray {
+    return this.profileForm.get('languages') as FormArray
+  }
+  addlanguages() {
+    const languageComponent = this.fb.group({
+      name: ["", Validators.required],
+      value: ["", Validators.required],
+    })
+    this.languages.push(languageComponent);
+  }
+  deletelanguage(index: number) {
+    this.confirmDelete("languages", this.languages, index)
+  }
+  resetlanguages() {
+    this.languages.reset()
+  }
+  clearlanguages() {
+    this.languages.clear()
+  }
+
+
   /* historical */
   get historicals(): FormArray {
     return this.profileForm.get('historicals') as FormArray
   }
   addhistoricals() {
     const historicalComponent = this.fb.group({
-      company: [""],
-      start: [""],
+      company: ["", Validators.required],
+      start: ["", Validators.required],
       end: [""],
       tecnical: [""],
       manager: [""],
+      project: [""],
       tecnical_short: [""],
       manager_short: [""],
+      project_short: [""],
     })
     this.historicals.push(historicalComponent);
   }
   deletehistorical(index: number) {
-    this.historicals.removeAt(index)
+    this.confirmDelete("historicals", this.historicals, index)
   }
   resethistoricals() {
     this.historicals.reset()
@@ -302,15 +276,15 @@ export class ResumeComponent {
   }
   addeducations() {
     const educationComponent = this.fb.group({
-      school: [""],
-      degree: [""],
-      start: [""],
+      school: ["", Validators.required],
+      degree: ["", Validators.required],
+      start: ["", Validators.required],
       end: [""],
     })
     this.educations.push(educationComponent);
   }
   deleteeducation(index: number) {
-    this.educations.removeAt(index)
+    this.confirmDelete("educations", this.educations, index)
   }
   reseteducations() {
     this.educations.reset()
@@ -325,15 +299,29 @@ export class ResumeComponent {
   }
   addcertificates() {
     const certificateComponent = this.fb.group({
-      name: [""],
-      institute: [""],
+      name: ["", Validators.required],
+      institute: ["", Validators.required],
       credential: [""],
-      issued: [""],
+      issued: ["", Validators.required],
+      url: [""],
+
     })
     this.certificates.push(certificateComponent);
   }
   deletecertificate(index: number) {
-    this.certificates.removeAt(index)
+    this.confirmDelete("certificates", this.certificates, index)
+  }
+  confirmDelete(whatDelete: string, action: any, index: number) {
+    let result = false
+    const dialogRef = this.dialog.open(DeleteDialog, {
+      data: { component: whatDelete }
+
+    })
+
+    dialogRef.afterClosed().subscribe(resultd => {
+      console.log('The dialog was closed');
+      if (resultd) action.removeAt(index);
+    });
   }
   resetcertificates() {
     this.certificates.reset()
@@ -346,4 +334,28 @@ export class ResumeComponent {
     console.log(JSON.stringify(this.profileForm.value))
     this.save()
   }
+}
+
+export interface DialogData {
+  component: string;
+  result: boolean;
+}
+@Component({
+  selector: 'dialog-delete',
+  templateUrl: 'confirmdelete.html',
+})
+export class DeleteDialog {
+  deleteComponent() {
+    this.data.result = true
+
+    this.dialogRef.close(true);
+  }
+  onNoClick() {
+    this.data.result = false
+    this.dialogRef.close(false);
+  }
+  constructor(public dialogRef: MatDialogRef<DeleteDialog>
+    ,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) { }
 }

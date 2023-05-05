@@ -25,6 +25,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { NgxElectronModule } from 'ngx-electron';
 
+import { MatTabsModule } from '@angular/material/tabs';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +56,8 @@ import { NgxElectronModule } from 'ngx-electron';
     MatToolbarModule,
     MatListModule,
     MatDialogModule,
+
+    MatTabsModule,
 
 
     ReactiveFormsModule,

@@ -7,11 +7,19 @@
     "ng": "ng",
     "startEle": "ng build --source-map --base-href ./ && electron .",
     "start": "ng serve --host 0.0.0.0 --disable-host-check",
-    "build": "ng build",
+    "electron": "electron .",
+    "build": "ng build  --base-href ./",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "buildele": "electron-packager . resume-maloi --overwrite --platform linux --arch x64 --out dist_resume/",
     "deb64": "electron-installer-debian --src dist_resume/resume-maloi-linux-x64/ --dest dist_resume/installers/ --arch amd64"
+  },
+  "build": {
+    "extraResources": [
+      "/dist/resume-maloi/favicon.ico",
+      "/dist/resume-maloi/*.js",
+      "/dist/resume-maloi/*.css"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -38,7 +46,7 @@
     "@angular/cli": "~15.2.2",
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
-    "electron": "^24.1.0",
+    "electron": "^24.1.2",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
