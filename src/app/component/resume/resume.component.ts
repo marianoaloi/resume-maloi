@@ -68,8 +68,6 @@ export class ResumeComponent {
   }
 
   itemChange() {
-    console.log("teste");
-
     this.save()
   }
   save() {
@@ -80,7 +78,7 @@ export class ResumeComponent {
       this._electronService.ipcRenderer.send('save', valueResume, autosave);
 
       this._electronService.ipcRenderer.once('fileTosave', (event, message) => {
-        console.log(message)
+        // console.log(message)
 
         this.openSnackBar(message, 'saveSnack')
       })
@@ -147,7 +145,7 @@ export class ResumeComponent {
   }
   openSnackBar(text: string, panelClass: string) {
     this._snackBar.open(text, 'done', {
-      duration: 3 * 1000,
+      duration: 500,
       panelClass: panelClass,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
@@ -159,6 +157,9 @@ export class ResumeComponent {
   profileForm = this.fb.group({
     name: ['', Validators.required],
     telephone: ['', Validators.required],
+    location: ['', Validators.required],
+    email: ['', Validators.required],
+    possition: ['', Validators.required],
     presentation: ['', Validators.required],
     socialmedias: this.fb.array([]),
     skills: this.fb.array([]),
@@ -331,7 +332,7 @@ export class ResumeComponent {
   }
 
   onFormSubmit() {
-    console.log(JSON.stringify(this.profileForm.value))
+    // console.log(JSON.stringify(this.profileForm.value))
     this.save()
   }
 }

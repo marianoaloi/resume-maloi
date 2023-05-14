@@ -99,7 +99,7 @@ const save = (file, data, event) => {
     lastSaved = new Date()
     fs.writeFile(file, data, (err) => {
         if (err) throw err;
-        console.log('Data written to file ', lastSaved);
+        // console.log('Data written to file ', lastSaved);
     })
 
     event.sender.send('fileTosave', `File ${file} saved`);

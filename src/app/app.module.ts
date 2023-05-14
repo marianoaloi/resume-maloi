@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -26,6 +26,11 @@ import { MatSliderModule } from '@angular/material/slider';
 import { NgxElectronModule } from 'ngx-electron';
 
 import { MatTabsModule } from '@angular/material/tabs';
+
+import { QuillModule } from 'ngx-quill'
+import Counter from './counter';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatQuillModule } from './mat-quill/mat-quill-module';
 
 
 @NgModule({
@@ -60,7 +65,24 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTabsModule,
 
 
+    MatFormFieldModule,
+    FormsModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+
+    QuillModule.forRoot({
+      customModules: [{
+        implementation: Counter,
+        path: 'modules/counter'
+      }],
+      customOptions: [{
+        import: 'formats/font',
+        whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
+      }]
+    }),
+
+
+    MatQuillModule,
 
   ],
   providers: [],

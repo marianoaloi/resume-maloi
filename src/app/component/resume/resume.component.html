@@ -28,15 +28,45 @@
                         Telephone name required. </mat-error>
                 </mat-form-field>
             </td>
+            <td>
+
+                <mat-form-field>
+                    <mat-label for="email">Email</mat-label>
+                    <input (keypress)="itemChange()" placeholder="email" matInput formControlName="email">
+                    <mat-error *ngIf="profileForm.get('email')?.hasError('required')" class="error">
+                        Email name required. </mat-error>
+                </mat-form-field>
+            </td>
         </tr>
         <tr>
-            <td colspan="2">
+
+            <td>
+
                 <mat-form-field>
-                    <mat-label for="company">Presentation</mat-label>
-                    <textarea rows="13" (keypress)="itemChange()" placeholder="Presentation" matInput
-                        formControlName="presentation"></textarea>
+                    <mat-label for="possition">Possition</mat-label>
+                    <input (keypress)="itemChange()" placeholder="possition" matInput formControlName="possition">
+                    <mat-error *ngIf="profileForm.get('possition')?.hasError('required')" class="error">
+                        Possition name required. </mat-error>
+                </mat-form-field>
+            </td>
+            <td colspan="2">
+
+                <mat-form-field>
+                    <mat-label for="location">Location</mat-label>
+                    <input (keypress)="itemChange()" placeholder="location" matInput formControlName="location">
+                    <mat-error *ngIf="profileForm.get('location')?.hasError('required')" class="error">
+                        Location name required. </mat-error>
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <mat-form-field>
+                    <mat-label for="presentation">Presentation</mat-label>
+                    <mat-quill format="html" (focusout)="itemChange()" rows="13" (keypress)="itemChange()"
+                        placeholder="Presentation" matInput formControlName="presentation"></mat-quill>
                     <mat-error *ngIf="profileForm.get('presentation')?.hasError('required')" class="error">
-                        Historical company required. </mat-error>
+                        Presentation required. </mat-error>
                 </mat-form-field>
             </td>
         </tr>
@@ -238,8 +268,9 @@
                                                     <mat-form-field class="tecnical historicallong">
                                                         <mat-label for="tecnical">Tecnical {{i+1}}
                                                         </mat-label>
-                                                        <textarea rows="13" id="tecnical" type="text" matInput
-                                                            formControlName="tecnical"></textarea>
+                                                        <mat-quill format="html" (focusout)="itemChange()" rows="13"
+                                                            id="tecnical" type="text" matInput
+                                                            formControlName="tecnical"></mat-quill>
                                                         <mat-error
                                                             *ngIf="socialmediaItem.get('tecnical')?.hasError('required')"
                                                             class="error">
@@ -248,8 +279,9 @@
                                                     <mat-form-field class="tecnical_short historicashort">
                                                         <mat-label for="tecnical_short">Tecnical Short {{i+1}}
                                                         </mat-label>
-                                                        <textarea rows="13" id="tecnical_short" type="text" matInput
-                                                            formControlName="tecnical_short"></textarea>
+                                                        <mat-quill format="html" (focusout)="itemChange()" rows="13"
+                                                            id="tecnical_short" type="text" matInput
+                                                            formControlName="tecnical_short"></mat-quill>
                                                         <mat-error
                                                             *ngIf="socialmediaItem.get('tecnical_short')?.hasError('required')"
                                                             class="error">
@@ -264,8 +296,9 @@
                                                     <mat-form-field class="manager historicallong">
                                                         <mat-label for="manager">Manager {{i+1}}
                                                         </mat-label>
-                                                        <textarea rows="13" id="manager" type="text" matInput
-                                                            formControlName="manager"></textarea>
+                                                        <mat-quill format="html" (focusout)="itemChange()" rows="13"
+                                                            id="manager" type="text" matInput
+                                                            formControlName="manager"></mat-quill>
                                                         <mat-error
                                                             *ngIf="socialmediaItem.get('manager')?.hasError('required')"
                                                             class="error">
@@ -274,8 +307,9 @@
                                                     <mat-form-field class="manager_short historicashort">
                                                         <mat-label for="manager_short">Manager Short {{i+1}}
                                                         </mat-label>
-                                                        <textarea rows="13" id="manager_short" type="text" matInput
-                                                            formControlName="manager_short"></textarea>
+                                                        <mat-quill format="html" (focusout)="itemChange()" rows="13"
+                                                            id="manager_short" type="text" matInput
+                                                            formControlName="manager_short"></mat-quill>
                                                         <mat-error
                                                             *ngIf="socialmediaItem.get('manager_short')?.hasError('required')"
                                                             class="error">
@@ -289,8 +323,9 @@
                                                     <mat-form-field class="project historicallong">
                                                         <mat-label for="project">Project {{i+1}}
                                                         </mat-label>
-                                                        <textarea rows="13" id="project" type="text" matInput
-                                                            formControlName="project"></textarea>
+                                                        <mat-quill format="html" (focusout)="itemChange()" rows="13"
+                                                            id="project" type="text" matInput
+                                                            formControlName="project"></mat-quill>
                                                         <mat-error
                                                             *ngIf="socialmediaItem.get('project')?.hasError('required')"
                                                             class="error">
@@ -299,8 +334,9 @@
                                                     <mat-form-field class="project_short historicashort">
                                                         <mat-label for="project_short">Project Short {{i+1}}
                                                         </mat-label>
-                                                        <textarea rows="13" id="project_short" type="text" matInput
-                                                            formControlName="project_short"></textarea>
+                                                        <mat-quill format="html" (focusout)="itemChange()" rows="13"
+                                                            id="project_short" type="text" matInput
+                                                            formControlName="project_short"></mat-quill>
                                                         <mat-error
                                                             *ngIf="socialmediaItem.get('project_short')?.hasError('required')"
                                                             class="error">
