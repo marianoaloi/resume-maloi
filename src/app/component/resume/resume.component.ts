@@ -110,6 +110,21 @@ export class ResumeComponent {
     this.openSnackBar("File Opened", "openSnack")
   }
   transformJsonForm(json: any, formObj: any[] | any) {
+    let addArray = (methodKey: string) => {
+      switch (methodKey) {
+        case 'addskills': this.addskills(); break;
+        case 'addsocialmedias': this.addsocialmedias(); break;
+        case 'addhistoricals': this.addhistoricals(); break;
+        case 'addlanguages': this.addlanguages(); break;
+        case 'addeducations': this.addeducations(); break;
+        case 'addcertificates': this.addcertificates(); break;
+        case 'addprojects': this.addprojects(this.findHist(json.company)); break;
+
+        default:
+          break;
+      }
+    }
+
     if (formObj instanceof Array)
       formObj.forEach(
         obj => {
@@ -121,23 +136,17 @@ export class ResumeComponent {
 
             const methodKey = 'add' + key
             let valueArray = json[key]
-            for (let index = 0; index < valueArray.length; index++) {
-              switch (methodKey) {
-                case 'addskills': this.addskills(); break;
-                case 'addsocialmedias': this.addsocialmedias(); break;
-                case 'addhistoricals': this.addhistoricals(); break;
-                case 'addlanguages': this.addlanguages(); break;
-                case 'addeducations': this.addeducations(); break;
-                case 'addcertificates': this.addcertificates(); break;
+            if (valueArray) {
+              for (let index = 0; index < valueArray.length; index++) {
+                addArray(methodKey)
+                // Object.
+                const elementForm = obj[1].controls[index];
+                const elementJson = valueArray[index];
+                this.transformJsonForm(elementJson, Object.entries((<FormGroup>elementForm).controls))
 
-                default:
-                  break;
               }
-              // Object.
-              const elementForm = obj[1].controls[index];
-              const elementJson = valueArray[index];
-              this.transformJsonForm(elementJson, Object.entries((<FormGroup>elementForm).controls))
-
+            } else {
+              addArray(methodKey)
             }
           }
         }
@@ -254,10 +263,9 @@ export class ResumeComponent {
       end: [""],
       tecnical: [""],
       manager: [""],
-      project: [""],
+      projects: this.fb.array([]),
       tecnical_short: [""],
       manager_short: [""],
-      project_short: [""],
     })
     this.historicals.push(historicalComponent);
   }
@@ -270,6 +278,45 @@ export class ResumeComponent {
   clearhistoricals() {
     this.historicals.clear()
   }
+
+
+  /* project */
+
+  findHist(name: any): AbstractControl<any, any> {
+    console.log(name)
+    let result: any;
+    let forms = this.historicals.controls.filter((x: any) => x.get('company').value == name);
+    result = forms[0]
+    return result as AbstractControl<any, any>
+  }
+  histprojects(historicals: AbstractControl<any, any>) {
+
+    console.log('hist', historicals.get('company')?.value)
+    return historicals.get('projects') as FormArray
+  }
+  // get projects(): FormArray {
+  //   return this.historicals.get('projects') as FormArray
+  // }
+  addprojects(historicals: AbstractControl<any, any>) {
+    const projectComponent = this.fb.group({
+      name: ["", Validators.required],
+      description: ["", Validators.required],
+      role: ["", Validators.required],
+      responsibilities: ["", Validators.required],
+      achivements: ["", Validators.required],
+    })
+    this.histprojects(historicals).push(projectComponent);
+  }
+  deleteproject(index: number, historicals: AbstractControl<any, any>) {
+    this.confirmDelete("projects", this.histprojects(historicals), index)
+  }
+  resetprojects(historicals: AbstractControl<any, any>) {
+    this.histprojects(historicals).reset()
+  }
+  clearprojects(historicals: AbstractControl<any, any>) {
+    this.histprojects(historicals).clear()
+  }
+
 
   /* education */
   get educations(): FormArray {
