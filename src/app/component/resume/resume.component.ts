@@ -283,7 +283,7 @@ export class ResumeComponent {
   /* project */
 
   findHist(name: any): AbstractControl<any, any> {
-    console.log(name)
+    // console.log(name)
     let result: any;
     let forms = this.historicals.controls.filter((x: any) => x.get('company').value == name);
     result = forms[0]
@@ -291,7 +291,7 @@ export class ResumeComponent {
   }
   histprojects(historicals: AbstractControl<any, any>) {
 
-    console.log('hist', historicals.get('company')?.value)
+    // console.log('hist', historicals.get('company')?.value)
     return historicals.get('projects') as FormArray
   }
   // get projects(): FormArray {
@@ -300,8 +300,11 @@ export class ResumeComponent {
   addprojects(historicals: AbstractControl<any, any>) {
     const projectComponent = this.fb.group({
       name: ["", Validators.required],
+      start: ["", Validators.required],
+      end: [""],
+      effect: ["", Validators.required],
       description: ["", Validators.required],
-      role: ["", Validators.required],
+      tecnicalProj: ["", Validators.required],
       responsibilities: ["", Validators.required],
       achivements: ["", Validators.required],
     })
