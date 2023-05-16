@@ -107,7 +107,7 @@
                 </mat-form-field>
 
                 <button mat-raised-button class="tdDelete" color="warn" (click)="deletehistorical(i)">Del
-                    {{historicalItem.get('company')?.value.substring(0,15)}}</button>
+                    {{historicalItem.get('company')?.value?.substring(0,15)}}</button>
 
                 <mat-tab-group>
 
@@ -174,7 +174,7 @@
                                         Text
                                         {{projectItem.get("name")?.value}}</mat-label>
                                     <input (keypress)="itemChange()" placeholder="Project effect text {{j+1}}" matInput
-                                        formControleffect="effect">
+                                        formControlName="effect">
                                     <mat-error *ngIf="projectItem.get('effect')?.hasError('required')" class="error">
                                         Project effect text required. </mat-error>
                                 </mat-form-field>
@@ -235,7 +235,7 @@
                             <button mat-raised-button color="primary" (click)="addprojects(historicalItem)"
                                 class="addProject">
                                 <mat-icon>add</mat-icon> Project at
-                                {{historicalItem.get('company')?.value.substring(0,15)}}
+                                {{historicalItem.get('company')?.value?.substring(0,15)}}
                             </button>
                         </div>
                     </mat-tab>
@@ -339,7 +339,7 @@
                     Skill value required. </mat-error>
 
                 <button mat-raised-button color="warn" (click)="deleteskill(i)">Del
-                    {{skillItem.get('name')?.value.substring(0,15)}}</button>
+                    {{skillItem.get('name')?.value?.substring(0,15)}}</button>
             </div>
         </div>
     </div>
@@ -379,7 +379,7 @@
 
 
                 <button mat-raised-button color="warn" (click)="deletelanguage(i)">Del
-                    {{languageItem.get('name')?.value.substring(0,15)}}</button>
+                    {{languageItem.get('name')?.value?.substring(0,15)}}</button>
             </div>
 
         </div>
@@ -416,7 +416,7 @@
                 </mat-form-field>
 
                 <button mat-raised-button color="warn" (click)="deletesocialmedia(i)">Del
-                    {{socialmediaItem.get('name')?.value.substring(0,15)}}</button>
+                    {{socialmediaItem.get('name')?.value?.substring(0,15)}}</button>
 
             </div>
         </div>
@@ -479,7 +479,7 @@
                         Historical end required. </mat-error>
                 </mat-form-field>
                 <button mat-raised-button color="warn" (click)="deletecertificate(i)">Del
-                    {{educationItem.get('school')?.value.substring(0,15)}}</button>
+                    {{educationItem.get('school')?.value?.substring(0,15)}}</button>
 
             </div>
         </div>
@@ -547,7 +547,7 @@
                 </mat-form-field>
 
                 <button mat-raised-button color="warn" (click)="deletecertificate(i)">Del
-                    {{certificateItem.get('name')?.value.substring(0,15)}}</button>
+                    {{certificateItem.get('name')?.value?.substring(0,15)}}</button>
 
             </div>
         </div>
