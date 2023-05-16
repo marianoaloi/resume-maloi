@@ -6,649 +6,552 @@
 
 </div>
 <form [formGroup]="profileForm" (ngSubmit)="onFormSubmit()">
-    <table>
-        <tr>
-            <td>
-
-                <mat-form-field>
 
 
-                    <mat-label for="name">Name</mat-label>
-                    <input (keypress)="itemChange()" placeholder="name" matInput formControlName="name">
-                    <mat-error *ngIf="profileForm.get('name')?.hasError('required')" class="error">
-                        Your name required. </mat-error>
+    <mat-form-field class="textFieldForm">
+
+
+        <mat-label for="name">Name</mat-label>
+        <input (keypress)="itemChange()" placeholder="name" matInput formControlName="name">
+        <mat-error *ngIf="profileForm.get('name')?.hasError('required')" class="error">
+            Your name required. </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="textFieldForm">
+        <mat-label for="telephone">Telephone</mat-label>
+        <input (keypress)="itemChange()" placeholder="telephone" matInput formControlName="telephone">
+        <mat-error *ngIf="profileForm.get('telephone')?.hasError('required')" class="error">
+            Telephone name required. </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="textFieldForm">
+        <mat-label for="email">Email</mat-label>
+        <input (keypress)="itemChange()" placeholder="email" matInput formControlName="email">
+        <mat-error *ngIf="profileForm.get('email')?.hasError('required')" class="error">
+            Email name required. </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="textFieldForm">
+        <mat-label for="possition">Possition</mat-label>
+        <input (keypress)="itemChange()" placeholder="possition" matInput formControlName="possition">
+        <mat-error *ngIf="profileForm.get('possition')?.hasError('required')" class="error">
+            Possition name required. </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="textFieldForm">
+        <mat-label for="location">Location</mat-label>
+        <input (keypress)="itemChange()" placeholder="location" matInput formControlName="location">
+        <mat-error *ngIf="profileForm.get('location')?.hasError('required')" class="error">
+            Location name required. </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label for="presentation">Presentation</mat-label>
+        <mat-quill format="html" (focusout)="itemChange()" (keypress)="itemChange()" placeholder="Presentation" matInput
+            formControlName="presentation"></mat-quill>
+        <mat-error *ngIf="profileForm.get('presentation')?.hasError('required')" class="error">
+            Presentation required. </mat-error>
+    </mat-form-field>
+
+
+
+    <div formArrayName="historicals" class="arrayGroup">
+        <h2>Historical<a mat-icon-button color="primary" (click)="addhistoricals()">
+                <mat-icon>add</mat-icon>
+            </a>
+        </h2>
+        <div style="
+                    width: 100%;
+                ">
+
+            <div *ngFor="let historicalItem of historicals.controls; let i=index" [formGroupName]="i"
+                class="historicals">
+
+                <mat-form-field class="companyName">
+                    <mat-label for="company">Company {{i+1}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="Company {{i+1}}" matInput formControlName="company">
+                    <mat-error *ngIf="historicalItem.get('company')?.hasError('required')" class="error">
+                        Historical company required. </mat-error>
                 </mat-form-field>
-            </td>
-            <td>
 
-                <mat-form-field>
-                    <mat-label for="telephone">Telephone</mat-label>
-                    <input (keypress)="itemChange()" placeholder="telephone" matInput formControlName="telephone">
-                    <mat-error *ngIf="profileForm.get('telephone')?.hasError('required')" class="error">
-                        Telephone name required. </mat-error>
+                <mat-form-field class="datafield">
+                    <mat-label for="start">Start
+                        {{historicalItem.get('company')?.value}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="Start {{historicalItem.get('company')?.value}}"
+                        matInput [matDatepicker]="pickerstart" formControlName="start">
+                    <mat-hint>MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerstart"></mat-datepicker-toggle>
+                    <mat-datepicker startView="multi-year"
+                        (monthSelected)="setMonthAndYear($event, pickerstart,historicalItem.get('start'))"
+                        panelClass="example-month-picker" #pickerstart></mat-datepicker>
+                    <mat-error *ngIf="historicalItem.get('start')?.hasError('required')" class="error">
+                        Historical start required. </mat-error>
                 </mat-form-field>
-            </td>
-            <td>
 
-                <mat-form-field>
-                    <mat-label for="email">Email</mat-label>
-                    <input (keypress)="itemChange()" placeholder="email" matInput formControlName="email">
-                    <mat-error *ngIf="profileForm.get('email')?.hasError('required')" class="error">
-                        Email name required. </mat-error>
+                <mat-form-field class="datafield">
+                    <mat-label for="end">End
+                        {{historicalItem.get('company')?.value}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="End {{historicalItem.get('company')?.value}}" matInput
+                        [matDatepicker]="pickerend" formControlName="end">
+                    <mat-hint>MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerend"></mat-datepicker-toggle>
+                    <mat-datepicker startView="multi-year"
+                        (monthSelected)="setMonthAndYear($event, pickerend,historicalItem.get('end'))"
+                        panelClass="example-month-picker" #pickerend></mat-datepicker>
+                    <mat-error *ngIf="historicalItem.get('end')?.hasError('required')" class="error">
+                        Historical end required. </mat-error>
                 </mat-form-field>
-            </td>
-        </tr>
-        <tr>
 
-            <td>
+                <button mat-raised-button class="tdDelete" color="warn" (click)="deletehistorical(i)">Del
+                    {{historicalItem.get('company')?.value.substring(0,15)}}</button>
 
-                <mat-form-field>
-                    <mat-label for="possition">Possition</mat-label>
-                    <input (keypress)="itemChange()" placeholder="possition" matInput formControlName="possition">
-                    <mat-error *ngIf="profileForm.get('possition')?.hasError('required')" class="error">
-                        Possition name required. </mat-error>
-                </mat-form-field>
-            </td>
-            <td colspan="2">
+                <mat-tab-group>
 
-                <mat-form-field>
-                    <mat-label for="location">Location</mat-label>
-                    <input (keypress)="itemChange()" placeholder="location" matInput formControlName="location">
-                    <mat-error *ngIf="profileForm.get('location')?.hasError('required')" class="error">
-                        Location name required. </mat-error>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <mat-form-field>
-                    <mat-label for="presentation">Presentation</mat-label>
-                    <mat-quill format="html" (focusout)="itemChange()" (keypress)="itemChange()"
-                        placeholder="Presentation" matInput formControlName="presentation"></mat-quill>
-                    <mat-error *ngIf="profileForm.get('presentation')?.hasError('required')" class="error">
-                        Presentation required. </mat-error>
-                </mat-form-field>
-            </td>
-        </tr>
-        <tr formArrayName="skills" class="arrayGroup">
-            <td colspan="4">
-                <h2>Skylls<a mat-icon-button color="primary" (click)="addskills()">
-                        <mat-icon>add</mat-icon>
-                    </a></h2>
-                <table>
-
-                    <tr *ngFor="let skillItem of skills.controls; let i=index" [formGroupName]="i" class="skills">
+                    <mat-tab label="Projects">
+                        <div formArrayName="projects" class="historicalText">
+                            <div *ngFor="let projectItem of histprojects(historicalItem).controls; let j=index; "
+                                [formGroupName]="j">
 
 
-
-                        <td>
-
-                            <mat-form-field>
-                                <mat-label for="name">Name {{i+1}}</mat-label>
-                                <input (keypress)="itemChange()" placeholder="Name {{i+1}}" matInput
-                                    formControlName="name">
-                                <mat-error *ngIf="skillItem.get('name')?.hasError('required')" class="error">
-                                    Skill name required. </mat-error>
-                            </mat-form-field>
-                        </td>
-
-                        <td>
-
-                            <mat-label for="value">Value {{i+1}}</mat-label>
-
-                            <mat-slider min="0" max="100" step="5" showTickMarks discrete [displayWith]="formatLabel"
-                                class="sliderValue" style="width: 100%;">
-                                <input matSliderThumb formControlName="value"> {{skillItem.get('value')?.value}}
-                            </mat-slider>
+                                <mat-form-field class="nameProjfield">
 
 
-                            <mat-error *ngIf="profileForm.get('value')?.hasError('required')" class="error">
-                                Skill value required. </mat-error>
-                        </td>
+                                    <mat-label for="name">
+                                        {{historicalItem.get('company')?.value}} Project Name
+                                        {{j+1}}</mat-label>
+                                    <input (keypress)="itemChange()" placeholder="Project Name {{j+1}}" matInput
+                                        formControlName="name">
+                                    <mat-error *ngIf="projectItem.get('name')?.hasError('required')" class="error">
+                                        Project name required. </mat-error>
+                                </mat-form-field>
 
 
-                        <td class="tdDelete"><button mat-raised-button color="warn" (click)="deleteskill(i)">Delete
-                                {{i+1}}</button></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr formArrayName="languages" class="arrayGroup">
-            <td colspan="4">
-                <h2>Languages<a mat-icon-button color="primary" (click)="addlanguages()">
-                        <mat-icon>add</mat-icon>
-                    </a></h2>
-                <table>
-
-                    <tr *ngFor="let languageItem of languages.controls; let i=index" [formGroupName]="i"
-                        class="languages">
-
-
-
-                        <td>
-
-                            <mat-form-field>
-                                <mat-label for="name">Name {{i+1}}</mat-label>
-                                <input (keypress)="itemChange()" placeholder="Name {{i+1}}" matInput
-                                    formControlName="name">
-                                <mat-error *ngIf="languageItem.get('name')?.hasError('required')" class="error">
-                                    language name required. </mat-error>
-                            </mat-form-field>
-                        </td>
-
-                        <td>
-
-                            <mat-label for="value">Value {{i+1}}</mat-label>
-
-                            <mat-slider min="0" max="100" step="5" showTickMarks discrete [displayWith]="formatLabel"
-                                class="sliderValue" style="width: 100%;">
-                                <input matSliderThumb formControlName="value"> {{languageItem.get('value')?.value}}
-                            </mat-slider>
+                                <mat-form-field class="dataProjfield datafield">
+                                    <mat-label for="start">Start
+                                        {{projectItem.get('name')?.value}}</mat-label>
+                                    <input (keypress)="itemChange()" placeholder="Start project {{j+1}}" matInput
+                                        [matDatepicker]="pickerstart" formControlName="start">
+                                    <mat-hint>MM/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="pickerstart"></mat-datepicker-toggle>
+                                    <mat-datepicker startView="multi-year"
+                                        (monthSelected)="setMonthAndYear($event, pickerstart,projectItem.get('start'))"
+                                        panelClass="example-month-picker" #pickerstart></mat-datepicker>
+                                    <mat-error *ngIf="projectItem.get('start')?.hasError('required')" class="error">
+                                        Historical {{projectItem.get('name')?.value}}
+                                        project
+                                        start required. </mat-error>
+                                </mat-form-field>
 
 
-                            <mat-error *ngIf="profileForm.get('value')?.hasError('required')" class="error">
-                                language value required. </mat-error>
-                        </td>
+                                <mat-form-field class="dataProjfield datafield">
+                                    <mat-label for="end">End
+                                        {{projectItem.get('name')?.value}}</mat-label>
+                                    <input (keypress)="itemChange()" placeholder="End project {{j+1}}" matInput
+                                        [matDatepicker]="pickerend" formControlName="end">
+                                    <mat-hint>MM/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="pickerend"></mat-datepicker-toggle>
+                                    <mat-datepicker startView="multi-year"
+                                        (monthSelected)="setMonthAndYear($event, pickerend,projectItem.get('end'))"
+                                        panelClass="example-month-picker" #pickerend></mat-datepicker>
+                                    <mat-error *ngIf="projectItem.get('end')?.hasError('required')" class="error">
+                                        Historical {{projectItem.get('name')?.value}}
+                                        project
+                                        end required. </mat-error>
+                                </mat-form-field>
+                                <button mat-raised-button color="warn" class="deleteProject"
+                                    (click)="deleteproject(i,historicalItem)">Del
+                                    {{projectItem.get("name")?.value}}</button>
+
+                                <mat-form-field class="effectProjfield">
 
 
-                        <td class="tdDelete"><button mat-raised-button color="warn" (click)="deletelanguage(i)">Delete
-                                {{i+1}}</button></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr formArrayName="socialmedias" class="arrayGroup">
-            <td colspan="4">
-                <h2>Social Media<a mat-icon-button color="primary" (click)="addsocialmedias()">
-                        <mat-icon>add</mat-icon>
-                    </a>
-                </h2>
-                <table>
+                                    <mat-label for="effect">
+                                        Project Effect
+                                        Text
+                                        {{projectItem.get("name")?.value}}</mat-label>
+                                    <input (keypress)="itemChange()" placeholder="Project effect text {{j+1}}" matInput
+                                        formControleffect="effect">
+                                    <mat-error *ngIf="projectItem.get('effect')?.hasError('required')" class="error">
+                                        Project effect text required. </mat-error>
+                                </mat-form-field>
+                                <mat-form-field class="historicaltextfield historicallong">
+                                    <mat-label for="project">
+                                        description
+                                        {{projectItem.get("name")?.value}}
+                                    </mat-label>
+                                    <mat-quill format="html" (focusout)="itemChange()" id="description" type="text"
+                                        matInput formControlName="description"></mat-quill>
+                                    <mat-error *ngIf="projectItem.get('description')?.hasError('required')"
+                                        class="error">
 
-                    <tr *ngFor="let socialmediaItem of socialmedias.controls; let i=index" [formGroupName]="i"
-                        class="socialmedias">
+                                        description required. </mat-error>
+                                </mat-form-field>
 
-                        <td>
+                                <mat-form-field class="historicaltextfield historicashort">
+                                    <mat-label for="responsibilities">
 
-                            <mat-form-field>
-                                <mat-label for="name">Name {{i+1}}</mat-label>
-                                <input (keypress)="itemChange()" placeholder="Name {{i+1}}" matInput
-                                    formControlName="name">
-                                <mat-error *ngIf="socialmediaItem.get('name')?.hasError('required')" class="error">
-                                    Social Media name required. </mat-error>
-                            </mat-form-field>
-                        </td>
+                                        responsibilities {{projectItem.get("name")?.value}}
+                                    </mat-label>
+                                    <mat-quill format="html" (focusout)="itemChange()" id="responsibilities" type="text"
+                                        matInput formControlName="responsibilities"></mat-quill>
+                                    <mat-error *ngIf="projectItem.get('responsibilities')?.hasError('required')"
+                                        class="error">
 
-                        <td>
-                            <mat-form-field class="urlAddress">
-                                <mat-label for="value">URL {{i+1}}
+                                        responsibilities required. </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="historicaltextfield historicallong">
+                                    <mat-label for="tecnicalProj">
+                                        tecnical
+                                        {{projectItem.get("name")?.value}}
+                                    </mat-label>
+                                    <mat-quill format="html" (focusout)="itemChange()" id="tecnicalProj" type="text"
+                                        matInput formControlName="tecnicalProj"></mat-quill>
+                                    <mat-error *ngIf="projectItem.get('tecnicalProj')?.hasError('required')"
+                                        class="error">
+
+                                        tecnicalProj required. </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="historicaltextfield historicashort">
+                                    <mat-label for="achivements">
+                                        achivements
+                                        {{projectItem.get("name")?.value}}
+                                    </mat-label>
+                                    <mat-quill format="html" (focusout)="itemChange()" id="achivements" type="text"
+                                        matInput formControlName="achivements"></mat-quill>
+                                    <mat-error *ngIf="projectItem.get('achivements')?.hasError('required')"
+                                        class="error">
+
+                                        achivements required. </mat-error>
+                                </mat-form-field>
+                                <hr>
+                            </div>
+
+                            <button mat-raised-button color="primary" (click)="addprojects(historicalItem)"
+                                class="addProject">
+                                <mat-icon>add</mat-icon> Project at
+                                {{historicalItem.get('company')?.value.substring(0,15)}}
+                            </button>
+                        </div>
+                    </mat-tab>
+
+                    <mat-tab label="Tecnical">
+                        <div class="historicalText">
+
+                            <mat-form-field class="tecnical historicallong">
+                                <mat-label for="tecnical">Tecnical
+                                    {{historicalItem.get('company')?.value}}
                                 </mat-label>
-                                <input id="url" type="text" matInput formControlName="url">
-                                <mat-error *ngIf="socialmediaItem.get('url')?.hasError('required')" class="error">
-                                    Social Media url required. </mat-error>
+                                <mat-quill format="html" (focusout)="itemChange()" id="tecnical" type="text" matInput
+                                    formControlName="tecnical"></mat-quill>
+                                <mat-error *ngIf="historicalItem.get('tecnical')?.hasError('required')" class="error">
+                                    Historical tecnical required. </mat-error>
                             </mat-form-field>
-                        </td>
-                        <td class="tdDelete"><button mat-raised-button color="warn"
-                                (click)="deletesocialmedia(i)">Delete
-                                {{i+1}}</button></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-
-        <tr formArrayName="historicals" class="arrayGroup">
-            <td colspan="4">
-                <h2>Historical<a mat-icon-button color="primary" (click)="addhistoricals()">
-                        <mat-icon>add</mat-icon>
-                    </a>
-                </h2>
-                <table>
-
-                    <tr *ngFor="let historicalItem of historicals.controls; let i=index" [formGroupName]="i"
-                        class="historicals">
-
-                        <td>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <mat-form-field>
-                                            <mat-label for="company">Company {{i+1}}</mat-label>
-                                            <input (keypress)="itemChange()" placeholder="Company {{i+1}}" matInput
-                                                formControlName="company">
-                                            <mat-error *ngIf="historicalItem.get('company')?.hasError('required')"
-                                                class="error">
-                                                Historical company required. </mat-error>
-                                        </mat-form-field>
-                                    </td>
-                                    <td class="datafield">
-                                        <mat-form-field class="datafield">
-                                            <mat-label for="start">Start
-                                                {{historicalItem.get('company')?.value}}</mat-label>
-                                            <input (keypress)="itemChange()"
-                                                placeholder="Start {{historicalItem.get('company')?.value}}" matInput
-                                                [matDatepicker]="pickerstart" formControlName="start">
-                                            <mat-hint>MM/YYYY</mat-hint>
-                                            <mat-datepicker-toggle matIconSuffix
-                                                [for]="pickerstart"></mat-datepicker-toggle>
-                                            <mat-datepicker startView="multi-year"
-                                                (monthSelected)="setMonthAndYear($event, pickerstart,historicalItem.get('start'))"
-                                                panelClass="example-month-picker" #pickerstart></mat-datepicker>
-                                            <mat-error *ngIf="historicalItem.get('start')?.hasError('required')"
-                                                class="error">
-                                                Historical start required. </mat-error>
-                                        </mat-form-field>
-                                    </td>
-                                    <td class="datafield">
-                                        <mat-form-field class="datafield">
-                                            <mat-label for="end">End
-                                                {{historicalItem.get('company')?.value}}</mat-label>
-                                            <input (keypress)="itemChange()"
-                                                placeholder="End {{historicalItem.get('company')?.value}}" matInput
-                                                [matDatepicker]="pickerend" formControlName="end">
-                                            <mat-hint>MM/YYYY</mat-hint>
-                                            <mat-datepicker-toggle matIconSuffix
-                                                [for]="pickerend"></mat-datepicker-toggle>
-                                            <mat-datepicker startView="multi-year"
-                                                (monthSelected)="setMonthAndYear($event, pickerend,historicalItem.get('end'))"
-                                                panelClass="example-month-picker" #pickerend></mat-datepicker>
-                                            <mat-error *ngIf="historicalItem.get('end')?.hasError('required')"
-                                                class="error">
-                                                Historical end required. </mat-error>
-                                        </mat-form-field>
-                                    </td>
-                                    <td class="tdDelete" colspan="4"><button mat-raised-button color="warn"
-                                            (click)="deletehistorical(i)">Delete
-                                            {{historicalItem.get('company')?.value}}</button></td>
-                                </tr>
-                                <tr>
-
-                                    <td colspan="4">
-
-                                        <mat-tab-group>
-                                            <mat-tab label="Tecnical">
-                                                <div class="historicalText">
-
-                                                    <mat-form-field class="tecnical historicallong">
-                                                        <mat-label for="tecnical">Tecnical
-                                                            {{historicalItem.get('company')?.value}}
-                                                        </mat-label>
-                                                        <mat-quill format="html" (focusout)="itemChange()" id="tecnical"
-                                                            type="text" matInput formControlName="tecnical"></mat-quill>
-                                                        <mat-error
-                                                            *ngIf="historicalItem.get('tecnical')?.hasError('required')"
-                                                            class="error">
-                                                            Historical tecnical required. </mat-error>
-                                                    </mat-form-field>
-                                                    <mat-form-field class="tecnical_short historicashort">
-                                                        <mat-label for="tecnical_short">Tecnical Short
-                                                            {{historicalItem.get('company')?.value}}
-                                                        </mat-label>
-                                                        <mat-quill format="html" (focusout)="itemChange()"
-                                                            id="tecnical_short" type="text" matInput
-                                                            formControlName="tecnical_short"></mat-quill>
-                                                        <mat-error
-                                                            *ngIf="historicalItem.get('tecnical_short')?.hasError('required')"
-                                                            class="error">
-                                                            Historical tecnical short required. </mat-error>
-                                                    </mat-form-field>
-
-                                                </div>
-                                            </mat-tab>
-                                            <mat-tab label="Manager">
-                                                <div class="historicalText">
-
-                                                    <mat-form-field class="manager historicallong">
-                                                        <mat-label for="manager">Manager
-                                                            {{historicalItem.get('company')?.value}}
-                                                        </mat-label>
-                                                        <mat-quill format="html" (focusout)="itemChange()" id="manager"
-                                                            type="text" matInput formControlName="manager"></mat-quill>
-                                                        <mat-error
-                                                            *ngIf="historicalItem.get('manager')?.hasError('required')"
-                                                            class="error">
-                                                            Historical manager required. </mat-error>
-                                                    </mat-form-field>
-                                                    <mat-form-field class="manager_short historicashort">
-                                                        <mat-label for="manager_short">Manager Short
-                                                            {{historicalItem.get('company')?.value}}
-                                                        </mat-label>
-                                                        <mat-quill format="html" (focusout)="itemChange()"
-                                                            id="manager_short" type="text" matInput
-                                                            formControlName="manager_short"></mat-quill>
-                                                        <mat-error
-                                                            *ngIf="historicalItem.get('manager_short')?.hasError('required')"
-                                                            class="error">
-                                                            Historical manager short required. </mat-error>
-                                                    </mat-form-field>
-                                                </div>
-                                            </mat-tab>
-                                            <mat-tab label="Projects">
-                                                <div formArrayName="projects" class="historicalText">
-                                                    <div *ngFor="let projectItem of histprojects(historicalItem).controls; let j=index; "
-                                                        [formGroupName]="j">
-
-
-                                                        <mat-form-field class="nameProjfield">
-
-
-                                                            <mat-label for="name">
-                                                                {{historicalItem.get('company')?.value}} Project Name
-                                                                {{j+1}}</mat-label>
-                                                            <input (keypress)="itemChange()"
-                                                                placeholder="Project Name {{j+1}}" matInput
-                                                                formControlName="name">
-                                                            <mat-error
-                                                                *ngIf="projectItem.get('name')?.hasError('required')"
-                                                                class="error">
-                                                                Project name required. </mat-error>
-                                                        </mat-form-field>
-
-
-                                                        <mat-form-field class="dataProjfield">
-                                                            <mat-label for="start">Start
-                                                                {{projectItem.get('name')?.value}}</mat-label>
-                                                            <input (keypress)="itemChange()"
-                                                                placeholder="Start project {{j+1}}" matInput
-                                                                [matDatepicker]="pickerstart" formControlName="start">
-                                                            <mat-hint>MM/YYYY</mat-hint>
-                                                            <mat-datepicker-toggle matIconSuffix
-                                                                [for]="pickerstart"></mat-datepicker-toggle>
-                                                            <mat-datepicker startView="multi-year"
-                                                                (monthSelected)="setMonthAndYear($event, pickerstart,projectItem.get('start'))"
-                                                                panelClass="example-month-picker"
-                                                                #pickerstart></mat-datepicker>
-                                                            <mat-error
-                                                                *ngIf="projectItem.get('start')?.hasError('required')"
-                                                                class="error">
-                                                                Historical {{projectItem.get('name')?.value}}
-                                                                project
-                                                                start required. </mat-error>
-                                                        </mat-form-field>
-
-
-                                                        <mat-form-field class="dataProjfield">
-                                                            <mat-label for="end">End
-                                                                {{projectItem.get('name')?.value}}</mat-label>
-                                                            <input (keypress)="itemChange()"
-                                                                placeholder="End project {{j+1}}" matInput
-                                                                [matDatepicker]="pickerend" formControlName="end">
-                                                            <mat-hint>MM/YYYY</mat-hint>
-                                                            <mat-datepicker-toggle matIconSuffix
-                                                                [for]="pickerend"></mat-datepicker-toggle>
-                                                            <mat-datepicker startView="multi-year"
-                                                                (monthSelected)="setMonthAndYear($event, pickerend,projectItem.get('end'))"
-                                                                panelClass="example-month-picker"
-                                                                #pickerend></mat-datepicker>
-                                                            <mat-error
-                                                                *ngIf="projectItem.get('end')?.hasError('required')"
-                                                                class="error">
-                                                                Historical {{projectItem.get('name')?.value}}
-                                                                project
-                                                                end required. </mat-error>
-                                                        </mat-form-field>
-                                                        <button mat-raised-button color="warn" class="deleteProject"
-                                                            (click)="deleteproject(i,historicalItem)">Del
-                                                            {{projectItem.get("name")?.value}}</button>
-
-                                                        <mat-form-field class="effectProjfield">
-
-
-                                                            <mat-label for="effect">
-                                                                Project Effect
-                                                                Text
-                                                                {{projectItem.get("name")?.value}}</mat-label>
-                                                            <input (keypress)="itemChange()"
-                                                                placeholder="Project effect text {{j+1}}" matInput
-                                                                formControleffect="effect">
-                                                            <mat-error
-                                                                *ngIf="projectItem.get('effect')?.hasError('required')"
-                                                                class="error">
-                                                                Project effect text required. </mat-error>
-                                                        </mat-form-field>
-                                                        <mat-form-field class="historicaltextfield historicallong">
-                                                            <mat-label for="project">
-                                                                description
-                                                                {{projectItem.get("name")?.value}}
-                                                            </mat-label>
-                                                            <mat-quill format="html" (focusout)="itemChange()"
-                                                                id="description" type="text" matInput
-                                                                formControlName="description"></mat-quill>
-                                                            <mat-error
-                                                                *ngIf="projectItem.get('description')?.hasError('required')"
-                                                                class="error">
-
-                                                                description required. </mat-error>
-                                                        </mat-form-field>
-
-                                                        <mat-form-field class="historicaltextfield historicashort">
-                                                            <mat-label for="responsibilities">
-
-                                                                responsibilities {{projectItem.get("name")?.value}}
-                                                            </mat-label>
-                                                            <mat-quill format="html" (focusout)="itemChange()"
-                                                                id="responsibilities" type="text" matInput
-                                                                formControlName="responsibilities"></mat-quill>
-                                                            <mat-error
-                                                                *ngIf="projectItem.get('responsibilities')?.hasError('required')"
-                                                                class="error">
-
-                                                                responsibilities required. </mat-error>
-                                                        </mat-form-field>
-
-                                                        <mat-form-field class="historicaltextfield historicallong">
-                                                            <mat-label for="tecnicalProj">
-                                                                tecnical
-                                                                {{projectItem.get("name")?.value}}
-                                                            </mat-label>
-                                                            <mat-quill format="html" (focusout)="itemChange()"
-                                                                id="tecnicalProj" type="text" matInput
-                                                                formControlName="tecnicalProj"></mat-quill>
-                                                            <mat-error
-                                                                *ngIf="projectItem.get('tecnicalProj')?.hasError('required')"
-                                                                class="error">
-
-                                                                tecnicalProj required. </mat-error>
-                                                        </mat-form-field>
-
-                                                        <mat-form-field class="historicaltextfield historicashort">
-                                                            <mat-label for="achivements">
-                                                                achivements
-                                                                {{projectItem.get("name")?.value}}
-                                                            </mat-label>
-                                                            <mat-quill format="html" (focusout)="itemChange()"
-                                                                id="achivements" type="text" matInput
-                                                                formControlName="achivements"></mat-quill>
-                                                            <mat-error
-                                                                *ngIf="projectItem.get('achivements')?.hasError('required')"
-                                                                class="error">
-
-                                                                achivements required. </mat-error>
-                                                        </mat-form-field>
-
-                                                    </div>
-
-                                                    <button mat-raised-button color="primary"
-                                                        (click)="addprojects(historicalItem)" class="addProject">
-                                                        <mat-icon>add</mat-icon> Project at
-                                                        {{historicalItem.get('company')?.value}}
-                                                    </button>
-                                                </div>
-                                            </mat-tab>
-                                        </mat-tab-group>
-
-                                    </td>
-
-                                </tr>
-
-
-                            </table>
-
-
-
-
-
-
-
-
-
-
-
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-        <tr formArrayName="educations" class="arrayGroup">
-            <td colspan="4">
-                <h2>Education<a mat-icon-button color="primary" (click)="addeducations()">
-                        <mat-icon>add</mat-icon>
-                    </a>
-                </h2>
-                <table>
-
-                    <tr *ngFor="let educationItem of educations.controls; let i=index" [formGroupName]="i"
-                        class="educations">
-
-                        <td>
-
-                            <mat-form-field>
-                                <mat-label for="name">School {{i+1}}</mat-label>
-                                <input (keypress)="itemChange()" placeholder="School {{i+1}}" matInput
-                                    formControlName="school">
-                                <mat-error *ngIf="educationItem.get('school')?.hasError('required')" class="error">
-                                    School required. </mat-error>
-                            </mat-form-field>
-                        </td>
-
-                        <td>
-                            <mat-form-field class="degree">
-                                <mat-label for="value">degree {{i+1}}
+                            <mat-form-field class="tecnical_short historicashort">
+                                <mat-label for="tecnical_short">Tecnical Short
+                                    {{historicalItem.get('company')?.value}}
                                 </mat-label>
-                                <input id="url" type="text" matInput formControlName="degree">
-                                <mat-error *ngIf="educationItem.get('degree')?.hasError('required')" class="error">
-                                    Certificate degree required. </mat-error>
-                            </mat-form-field>
-                        </td>
-
-                        <td class="datafield">
-                            <mat-form-field class="datafield">
-                                <mat-label for="start">Start {{i+1}}</mat-label>
-                                <input (keypress)="itemChange()" placeholder="Start {{i+1}}" matInput
-                                    [matDatepicker]="pickerstart" formControlName="start">
-                                <mat-hint>MM/YYYY</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="pickerstart"></mat-datepicker-toggle>
-                                <mat-datepicker startView="multi-year"
-                                    (monthSelected)="setMonthAndYear($event, pickerstart,educationItem.get('start'))"
-                                    panelClass="example-month-picker" #pickerstart></mat-datepicker>
-                                <mat-error *ngIf="educationItem.get('start')?.hasError('required')" class="error">
-                                    Historical start required. </mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td class="datafield">
-                            <mat-form-field class="datafield">
-                                <mat-label for="end">End {{i+1}}</mat-label>
-                                <input (keypress)="itemChange()" placeholder="End {{i+1}}" matInput
-                                    [matDatepicker]="pickerend" formControlName="end">
-                                <mat-hint>MM/YYYY</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="pickerend"></mat-datepicker-toggle>
-                                <mat-datepicker startView="multi-year"
-                                    (monthSelected)="setMonthAndYear($event, pickerend,educationItem.get('end'))"
-                                    panelClass="example-month-picker" #pickerend></mat-datepicker>
-                                <mat-error *ngIf="educationItem.get('end')?.hasError('required')" class="error">
-                                    Historical end required. </mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td class="tdDelete"><button mat-raised-button color="warn"
-                                (click)="deletecertificate(i)">Delete
-                                {{i+1}}</button></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-        <tr formArrayName="certificates" class="arrayGroup">
-            <td colspan="4">
-                <h2>Certificate<a mat-icon-button color="primary" (click)="addcertificates()">
-                        <mat-icon>add</mat-icon>
-                    </a>
-                </h2>
-                <table>
-
-                    <tr *ngFor="let certificateItem of certificates.controls; let i=index" [formGroupName]="i"
-                        class="certificates">
-
-                        <td>
-
-                            <mat-form-field>
-                                <mat-label for="name">Name {{i+1}}</mat-label>
-                                <input (keypress)="itemChange()" placeholder="Name {{i+1}}" matInput
-                                    formControlName="name">
-                                <mat-error *ngIf="certificateItem.get('name')?.hasError('required')" class="error">
-                                    Certificate name required. </mat-error>
-                            </mat-form-field>
-                        </td>
-
-                        <td>
-                            <mat-form-field class="institute">
-                                <mat-label for="value">Institute {{i+1}}
-                                </mat-label>
-                                <input id="url" type="text" matInput formControlName="institute">
-                                <mat-error *ngIf="certificateItem.get('institute')?.hasError('required')" class="error">
-                                    Certificate institute required. </mat-error>
-                            </mat-form-field>
-                        </td>
-
-                        <td>
-                            <mat-form-field class="credential">
-                                <mat-label for="value">Credential {{i+1}}
-                                </mat-label>
-                                <input id="credential" type="text" matInput formControlName="credential">
-                                <mat-error *ngIf="certificateItem.get('credential')?.hasError('required')"
+                                <mat-quill format="html" (focusout)="itemChange()" id="tecnical_short" type="text"
+                                    matInput formControlName="tecnical_short"></mat-quill>
+                                <mat-error *ngIf="historicalItem.get('tecnical_short')?.hasError('required')"
                                     class="error">
-                                    Certificate credential required. </mat-error>
+                                    Historical tecnical short required. </mat-error>
                             </mat-form-field>
-                        </td>
 
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Manager">
+                        <div class="historicalText">
 
-                        <td class="datafield">
-                            <mat-form-field class="issued datafield">
-                                <mat-label for="value">Issued {{i+1}}</mat-label>
-                                <input id="issued" type="text" matInput formControlName="issued"
-                                    [matDatepicker]="pickerIssued">
-                                <mat-hint>MM/YYYY</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="pickerIssued"></mat-datepicker-toggle>
-                                <mat-datepicker startView="multi-year"
-                                    (monthSelected)="setMonthAndYear($event, pickerIssued,certificateItem.get('issued'))"
-                                    panelClass="example-month-picker" #pickerIssued></mat-datepicker>
-                                <mat-error *ngIf="certificateItem.get('issued')?.hasError('required')" class="error">
-                                    Certificate issued required. </mat-error>
-                            </mat-form-field>
-                        </td>
-
-
-
-                        <td>
-                            <mat-form-field class="urlAddress">
-                                <mat-label for="value">URL {{i+1}}
+                            <mat-form-field class="manager historicallong">
+                                <mat-label for="manager">Manager
+                                    {{historicalItem.get('company')?.value}}
                                 </mat-label>
-                                <input id="url" type="text" matInput formControlName="url">
-                                <mat-error *ngIf="certificateItem.get('url')?.hasError('required')" class="error">
-                                    Certificate url required. </mat-error>
+                                <mat-quill format="html" (focusout)="itemChange()" id="manager" type="text" matInput
+                                    formControlName="manager"></mat-quill>
+                                <mat-error *ngIf="historicalItem.get('manager')?.hasError('required')" class="error">
+                                    Historical manager required. </mat-error>
                             </mat-form-field>
-                        </td>
+                            <mat-form-field class="manager_short historicashort">
+                                <mat-label for="manager_short">Manager Short
+                                    {{historicalItem.get('company')?.value}}
+                                </mat-label>
+                                <mat-quill format="html" (focusout)="itemChange()" id="manager_short" type="text"
+                                    matInput formControlName="manager_short"></mat-quill>
+                                <mat-error *ngIf="historicalItem.get('manager_short')?.hasError('required')"
+                                    class="error">
+                                    Historical manager short required. </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </mat-tab>
 
-                        <td class="tdDelete"><button mat-raised-button color="warn"
-                                (click)="deletecertificate(i)">Delete
-                                {{i+1}}</button></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                </mat-tab-group>
 
-    </table>
 
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div formArrayName="skills" class="arrayGroup">
+        <h2>Skylls<a mat-icon-button color="primary" (click)="addskills()">
+                <mat-icon>add</mat-icon>
+            </a></h2>
+        <div style="
+        width: 100%;
+    ">
+
+            <div *ngFor="let skillItem of skills.controls; let i=index" [formGroupName]="i" class="skills">
+
+
+
+
+
+                <mat-form-field class="textFieldForm">
+                    <mat-label for="name">Name {{skillItem.get('name')?.value}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="Name {{skillItem.get('name')?.value}}" matInput
+                        formControlName="name">
+                    <mat-error *ngIf="skillItem.get('name')?.hasError('required')" class="error">
+                        Skill name required. </mat-error>
+                </mat-form-field>
+
+
+
+                <mat-slider min="0" max="100" step="5" showTickMarks discrete [displayWith]="formatLabel"
+                    class="asliderValue" style="width: calc(100% - 33% - 220px);">
+
+                    <mat-label for="value">Value {{skillItem.get('name')?.value}}</mat-label>
+                    <input matSliderThumb formControlName="value"> {{skillItem.get('value')?.value}}
+                </mat-slider>
+
+
+                <mat-error *ngIf="profileForm.get('value')?.hasError('required')" class="error">
+                    Skill value required. </mat-error>
+
+                <button mat-raised-button color="warn" (click)="deleteskill(i)">Del
+                    {{skillItem.get('name')?.value.substring(0,15)}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div formArrayName="languages" class="arrayGroup">
+
+        <h2>Languages<a mat-icon-button color="primary" (click)="addlanguages()">
+                <mat-icon>add</mat-icon>
+            </a></h2>
+        <div style="
+                    width: 100%;
+                ">
+
+            <div *ngFor="let languageItem of languages.controls; let i=index" [formGroupName]="i" class="languages">
+
+
+
+                <mat-form-field class="textFieldForm">
+                    <mat-label for="name">Name {{languageItem.get('name')?.value}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="Name {{languageItem.get('name')?.value}}" matInput
+                        formControlName="name">
+                    <mat-error *ngIf="languageItem.get('name')?.hasError('required')" class="error">
+                        language name required. </mat-error>
+                </mat-form-field>
+
+
+                <mat-slider min="0" max="100" step="5" showTickMarks discrete [displayWith]="formatLabel"
+                    class="asliderValue" style="width: calc(100% - 33% - 220px);">
+                    <mat-label for="value">Value {{languageItem.get('name')?.value}}</mat-label>
+                    <input matSliderThumb formControlName="value"> {{languageItem.get('value')?.value}}
+                </mat-slider>
+
+
+                <mat-error *ngIf="profileForm.get('value')?.hasError('required')" class="error">
+                    language value required. </mat-error>
+
+
+
+                <button mat-raised-button color="warn" (click)="deletelanguage(i)">Del
+                    {{languageItem.get('name')?.value.substring(0,15)}}</button>
+            </div>
+
+        </div>
+    </div>
+    <div formArrayName="socialmedias" class="arrayGroup">
+
+        <h2>Social Media<a mat-icon-button color="primary" (click)="addsocialmedias()">
+                <mat-icon>add</mat-icon>
+            </a>
+        </h2>
+        <div style="
+                        width: 100%;
+                    ">
+
+            <div *ngFor="let socialmediaItem of socialmedias.controls; let i=index" [formGroupName]="i"
+                class="socialmedias">
+
+
+
+                <mat-form-field class="textFieldForm">
+                    <mat-label for="name">Name {{socialmediaItem.get('name')?.value}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="Name {{socialmediaItem.get('name')?.value}}" matInput
+                        formControlName="name">
+                    <mat-error *ngIf="socialmediaItem.get('name')?.hasError('required')" class="error">
+                        Social Media name required. </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class=" urlAddress">
+                    <mat-label for="value">URL {{socialmediaItem.get('name')?.value}}
+                    </mat-label>
+                    <input id="url" type="text" matInput formControlName="url">
+                    <mat-error *ngIf="socialmediaItem.get('url')?.hasError('required')" class="error">
+                        Social Media url required. </mat-error>
+                </mat-form-field>
+
+                <button mat-raised-button color="warn" (click)="deletesocialmedia(i)">Del
+                    {{socialmediaItem.get('name')?.value.substring(0,15)}}</button>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div formArrayName="educations" class="arrayGroup">
+
+        <h2>Education<a mat-icon-button color="primary" (click)="addeducations()">
+                <mat-icon>add</mat-icon>
+            </a>
+        </h2>
+        <div style="
+                        width: 100%;
+                    ">
+
+            <div *ngFor="let educationItem of educations.controls; let i=index" [formGroupName]="i" class="educations">
+
+
+                <mat-form-field class="textFieldForm">
+                    <mat-label for="name">School {{i+1}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="School {{i+1}}" matInput formControlName="school">
+                    <mat-error *ngIf="educationItem.get('school')?.hasError('required')" class="error">
+                        School required. </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="textFieldForm">
+                    <mat-label for="value">degree {{i+1}}
+                    </mat-label>
+                    <input id="url" type="text" matInput formControlName="degree">
+                    <mat-error *ngIf="educationItem.get('degree')?.hasError('required')" class="error">
+                        Certificate degree required. </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="datafield">
+                    <mat-label for="start">Start {{i+1}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="Start {{i+1}}" matInput [matDatepicker]="pickerstart"
+                        formControlName="start">
+                    <mat-hint>MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerstart"></mat-datepicker-toggle>
+                    <mat-datepicker startView="multi-year"
+                        (monthSelected)="setMonthAndYear($event, pickerstart,educationItem.get('start'))"
+                        panelClass="example-month-picker" #pickerstart></mat-datepicker>
+                    <mat-error *ngIf="educationItem.get('start')?.hasError('required')" class="error">
+                        Historical start required. </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="datafield">
+                    <mat-label for="end">End {{i+1}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="End {{i+1}}" matInput [matDatepicker]="pickerend"
+                        formControlName="end">
+                    <mat-hint>MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerend"></mat-datepicker-toggle>
+                    <mat-datepicker startView="multi-year"
+                        (monthSelected)="setMonthAndYear($event, pickerend,educationItem.get('end'))"
+                        panelClass="example-month-picker" #pickerend></mat-datepicker>
+                    <mat-error *ngIf="educationItem.get('end')?.hasError('required')" class="error">
+                        Historical end required. </mat-error>
+                </mat-form-field>
+                <button mat-raised-button color="warn" (click)="deletecertificate(i)">Del
+                    {{educationItem.get('school')?.value.substring(0,15)}}</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div formArrayName="certificates" class="arrayGroup">
+
+        <h2>Certificate<a mat-icon-button color="primary" (click)="addcertificates()">
+                <mat-icon>add</mat-icon>
+            </a>
+        </h2>
+        <div style="
+                width: 100%;
+            ">
+
+            <div *ngFor="let certificateItem of certificates.controls; let i=index" [formGroupName]="i"
+                class="certificates">
+
+
+                <mat-form-field class="textFieldForm">
+                    <mat-label for="name">Name {{i+1}}</mat-label>
+                    <input (keypress)="itemChange()" placeholder="Name {{i+1}}" matInput formControlName="name">
+                    <mat-error *ngIf="certificateItem.get('name')?.hasError('required')" class="error">
+                        Certificate name required. </mat-error>
+                </mat-form-field>
+
+
+                <mat-form-field class="textFieldForm institute">
+                    <mat-label for="value">Institute {{i+1}}
+                    </mat-label>
+                    <input id="url" type="text" matInput formControlName="institute">
+                    <mat-error *ngIf="certificateItem.get('institute')?.hasError('required')" class="error">
+                        Certificate institute required. </mat-error>
+                </mat-form-field>
+
+
+                <mat-form-field class="textFieldForm credential">
+                    <mat-label for="value">Credential {{i+1}}
+                    </mat-label>
+                    <input id="credential" type="text" matInput formControlName="credential">
+                    <mat-error *ngIf="certificateItem.get('credential')?.hasError('required')" class="error">
+                        Certificate credential required. </mat-error>
+                </mat-form-field>
+
+
+                <mat-form-field class="issued datafield">
+                    <mat-label for="value">Issued {{i+1}}</mat-label>
+                    <input id="issued" type="text" matInput formControlName="issued" [matDatepicker]="pickerIssued">
+                    <mat-hint>MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerIssued"></mat-datepicker-toggle>
+                    <mat-datepicker startView="multi-year"
+                        (monthSelected)="setMonthAndYear($event, pickerIssued,certificateItem.get('issued'))"
+                        panelClass="example-month-picker" #pickerIssued></mat-datepicker>
+                    <mat-error *ngIf="certificateItem.get('issued')?.hasError('required')" class="error">
+                        Certificate issued required. </mat-error>
+                </mat-form-field>
+
+
+                <mat-form-field class="urlAddress">
+                    <mat-label for="value">URL {{i+1}}
+                    </mat-label>
+                    <input id="url" type="text" matInput formControlName="url">
+                    <mat-error *ngIf="certificateItem.get('url')?.hasError('required')" class="error">
+                        Certificate url required. </mat-error>
+                </mat-form-field>
+
+                <button mat-raised-button color="warn" (click)="deletecertificate(i)">Del
+                    {{certificateItem.get('name')?.value.substring(0,15)}}</button>
+
+            </div>
+        </div>
+    </div>
 
 
     <button>SUBMIT</button>

@@ -36,8 +36,7 @@ label.error {
 }
 
 .urlAddress {
-  min-width: 80%;
-  max-width: 90%;
+  max-width: 500px;
 }
 
 table {
@@ -60,7 +59,7 @@ mat-form-field {
 }
 
 td.tdDelete {
-  width: 110px;
+  width: 200px;
   float: right;
 }
 
@@ -83,31 +82,90 @@ mat-form-field:has(textarea) {
 }
 
 
-.historicashort {
-  width: 32%;
-}
-
+.historicashort,
 .historicallong {
-  width: 66%;
+  width: 50%;
 }
 
 .deleteProject {
   width: 100px;
 }
 
-.dataProjfield {
-  width: 19%;
-}
 
 .nameProjfield {
-  width: 55%;
+  width: calc(100% - 618px);
 }
 
 
-.mat-mdc-form-field-type-mat-quill {
-  min-height: 250px;
-}
 
 .addProject {
-  width: 99%;
+  width: 100%;
+  margin-top: -30px;
+}
+
+.textFieldForm {
+  min-width: 400px;
+  max-width: 33%;
+}
+
+.companyName {
+  width: calc(100% - 618px);
+}
+
+[color="warn"] {
+  width: 200px;
+}
+
+.asliderValue {
+  width: calc(100% - 33% - 200px);
+}
+
+
+
+
+div.skills,
+div.languages,
+div.educations,
+div.certificates,
+div.socialmedias {
+  width: 750px;
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+
+div.socialmedias {
+  width: calc(33% + 700px); // 200 button + 500 url
+}
+
+
+.educations>.textFieldForm {
+  max-width: 375px;
+}
+
+div.educations {
+  width: 1368px; // 2 fields text 2 fields data + delete button
+}
+
+.certificates>.textFieldForm {
+  max-width: 20%;
+}
+
+div.certificates {
+  width: 100%;
+}
+
+
+[formarrayname="skills"] {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
