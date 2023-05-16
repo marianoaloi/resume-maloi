@@ -1,7 +1,7 @@
 {
   "name": "resume-maloi",
   "description": "Easer way to write a resume.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "app.js",
   "scripts": {
     "ng": "ng",
@@ -13,7 +13,7 @@
     "test": "ng test",
     "buildele": "electron-packager . resume-maloi  --platform \"linux,win32\"  --arch x64 --out dist_resume/ --overwrite --asar --icon='favicon.ico' --prune=true  --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='Resume Maloi'",
     "deb64": "electron-installer-debian --src dist_resume/resume-maloi-linux-x64/ --dest dist_resume/installers/ --arch amd64",
-    "winBuild":"node winBuild.js"
+    "winBuild": "node winBuild.js"
   },
   "build": {
     "extraResources": [
