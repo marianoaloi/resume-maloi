@@ -1,4 +1,5 @@
 ## ./bash
+
 sed -i 's/\(^[^\/]*Remote\)/\/\/\1/g'  ./node_modules/ngx-electron/lib/electron.service.d.ts
 npm run build
 rm -r ../resume-executable/
