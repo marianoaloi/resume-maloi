@@ -15,7 +15,7 @@ Copy-Item package.json  ../resume-executable/
 C:\Python310\python.exe ../cleanNPMFile.py ../resume-executable/package.json
 Set-Location ../resume-executable/
 npm install --save-dev electron
-npm install electron-context-menu
+npm install --save-dev electron-context-menu
 npm install --save-dev electron-packager
 npm install --save-dev electron-winstaller
 npm run buildele
