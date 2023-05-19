@@ -31,3 +31,4 @@ jobs:
       with:
           artifacts: "dist_resume/installers/*.deb"
           bodyFile: "body.md"
+          tag: "lasted"
