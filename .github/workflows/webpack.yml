@@ -30,6 +30,6 @@ jobs:
     - uses: ncipollo/release-action@v1
       with:
           artifacts: "dist_resume/installers/*.deb"
-          bodyFile: "body.md"
+          bodyFile: ".github/workflows/body.md"
           tag: "lasted"
 
