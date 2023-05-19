@@ -6,7 +6,7 @@ const electronInstaller = require('electron-winstaller');
       appDirectory: './dist_resume/resume-maloi-win32-x64',
       outputDirectory: 'dist_resume/installers/',
       authors: 'Mariano Aloi',
-      version:`${d.getYear()+1900}.${d.getMonth()+1}.${d.getDate()}.${("0" + d.getHours()).slice(-2) }${ ("0" + d.getMinutes()).slice(-2)}${  ("0" + d.getSeconds()).slice(-2)}`,
+      version:`${d.getYear()+1900}.${d.getMonth()+1}.${("00000" + ((d.getDate()*d.getHours()*d.getMinutes()*d.getSeconds())/65534)).slice(-5) }` ,
       exe: 'resume-maloi.exe'
     });
     console.log('It worked!');
