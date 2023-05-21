@@ -41,7 +41,7 @@ jobs:
     - name: deploy release
       uses: ncipollo/release-action@v1
       with:
-          artifacts: "installer ubuntu"
-          body: dist_resume/installers/*.deb
-          tag: ${{ github.run_number }}
-          name: Release ${{ github.run_number }}
+        artifacts: dist_resume/installers/*.deb
+        body: "make executable resume-maloi"
+        tag: ${{ github.run_number }}
+        name: Release ${{ github.run_number }}
