@@ -8,6 +8,8 @@ on:
 
 jobs:
   build-node:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     strategy:
@@ -33,7 +35,7 @@ jobs:
     - name: installer ubuntu
       uses: actions/upload-artifact@v3
       with:
-        name: code-coverage-report
+        name: Installer Ubuntu
         path: dist_resume/installers/*.deb
         retention-days: 5
 
