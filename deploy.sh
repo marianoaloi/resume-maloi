@@ -1,7 +1,7 @@
 ## ./bash
 
 
-echo "local:"$pwd
+echo "local:$PWD"
 sed -i 's/\(^[^\/]*Remote\)/\/\/\1/g'  ./node_modules/ngx-electron/lib/electron.service.d.ts
 npm run build
 rm -r ../resume-executable/
@@ -20,5 +20,5 @@ npm install --save-dev electron-packager
 npm install --save-dev electron-installer-debian
 npm run buildele
 npm run deb64
-echo "local:"$pwd
-cp dist_resume/ ../resume-maloi
+echo "local:$PWD"
+cp -r dist_resume/ ../resume-maloi
