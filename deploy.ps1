@@ -12,7 +12,8 @@ Copy-Item package.json  ../resume-executable/
 # sed -i 's/.*openDevTools.*/\/\//g' ../resume-executable/app.js
 (Get-Content ../resume-executable/app.js).replace('/dist/resume-maloi','.') | Set-Content ../resume-executable/app.js
 (Get-Content ../resume-executable/app.js).replace('mainWindow.webContents.openDevTools()','') | Set-Content ../resume-executable/app.js
-C:\Python310\python.exe ../cleanNPMFile.py ../resume-executable/package.json
+(Get-Content ../resume-executable/package.json).replace('\"linux\"','\"win\"') | Set-Content ../resume-executable/package.json
+node ./cleanNPMFile.js ../resume-executable/package.json
 Set-Location ../resume-executable/
 npm install --save-dev electron
 npm install electron-context-menu
