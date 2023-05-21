@@ -7,8 +7,9 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-node:
+    runs-on:
+      group: ubuntu-runners
 
     strategy:
       matrix:
@@ -42,8 +43,9 @@ jobs:
         retention-days: 5
   release-project:
     name: Release project
-    runs-on: ubuntu-lastest
-    needs: build
+    runs-on:
+      group: ubuntu-runners
+    needs:  build-node
     steps:
     - name: deploy release
       uses: ncipollo/release-action@v1
