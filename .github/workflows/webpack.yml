@@ -26,11 +26,17 @@ jobs:
       run: |
         npm install --force
         ./deploy.sh
+        tree $(Build.SourcesDirectory)
+
 
   get-artifact:
     runs-on: ubuntu-latest
     needs: build-node
     steps:
+
+    - name: "Local three"
+      run: |
+        tree $(Build.SourcesDirectory)
 
     - name: installer ubuntu
       uses: actions/upload-artifact@v3
@@ -43,6 +49,11 @@ jobs:
     runs-on: ubuntu-latest
     needs:  [build-node,get-artifact]
     steps:
+
+    - name: "Local three"
+      run: |
+        tree $(Build.SourcesDirectory)
+
     - name: deploy release
       uses: ncipollo/release-action@v1
       with:
