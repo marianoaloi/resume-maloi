@@ -16,7 +16,7 @@ Copy-Item package.json  ../resume-executable/
 node ./cleanNPMFile.js ../resume-executable/package.json
 Set-Location ../resume-executable/
 npm install --save-dev electron
-npm install --save-dev electron-context-menu
+npm install  electron-context-menu
 npm install --save-dev electron-packager
 npm install --save-dev electron-winstaller
 npm run buildele
@@ -24,4 +24,6 @@ npm run buildele
 # npm run deb64
 npm run winBuild
 
+
+Copy-Item dist_resume/ ../resume-maloi
 Set-Location $PSScriptRoot
