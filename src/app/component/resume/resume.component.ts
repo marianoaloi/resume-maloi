@@ -302,6 +302,7 @@ export class ResumeComponent {
       name: ["", Validators.required],
       start: ["", Validators.required],
       end: [""],
+      url: [""],
       effect: ["", Validators.required],
       description: ["", Validators.required],
       tecnicalProj: ["", Validators.required],

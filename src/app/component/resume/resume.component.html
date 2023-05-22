@@ -166,7 +166,7 @@
                                     (click)="deleteproject(i,historicalItem)">Del
                                     {{projectItem.get("name")?.value}}</button>
 
-                                <mat-form-field class="effectProjfield">
+                                <mat-form-field class="effectProjfield historicallong">
 
 
                                     <mat-label for="effect">
@@ -178,6 +178,21 @@
                                     <mat-error *ngIf="projectItem.get('effect')?.hasError('required')" class="error">
                                         Project effect text required. </mat-error>
                                 </mat-form-field>
+
+
+
+                                <mat-form-field class="urlProjfield historicallong">
+
+
+                                    <mat-label for="url">
+                                        Project url {{projectItem.get("name")?.value}}</mat-label>
+                                    <input (keypress)="itemChange()" placeholder="Project url text {{j+1}}" matInput
+                                        formControlName="url">
+                                    <mat-error *ngIf="projectItem.get('url')?.hasError('required')" class="error">
+                                        Project url text required. </mat-error>
+                                </mat-form-field>
+
+
                                 <mat-form-field class="historicaltextfield historicallong">
                                     <mat-label for="project">
                                         description
