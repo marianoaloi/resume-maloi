@@ -2,6 +2,7 @@
 Set-Location $PSScriptRoot
 
 npm install
+(Get-Content ../resume-executable/node_modules/ngx-electron/lib/electron.service.d.ts).replace('readonly remote: Electron.Remote;','') | Set-Content ../resume-executable/node_modules/ngx-electron/lib/electron.service.d.ts
 npm run build
 Remove-Item -Force -Recurse -Path ../resume-executable/ -ErrorAction SilentlyContinue
 mkdir ../resume-executable/

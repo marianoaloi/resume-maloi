@@ -33,7 +33,7 @@ jobs:
 
 
     - name: installer ubuntu
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Installer Ubuntu
         path: dist_resume/installers/*.deb
