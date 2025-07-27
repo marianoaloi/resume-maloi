@@ -32,7 +32,7 @@ jobs:
         
 
     - name: installer windows
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Installer windows
         path: ../resume-executable/dist_resume/resume-maloi-win32-x64/resume-maloi.exe
