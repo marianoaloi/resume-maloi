@@ -1,5 +1,6 @@
 ## ./bash
 
+#     "electron-installer-debian": "^3.1.0",
 
 echo "local:$PWD"
 sed -i 's/\(^[^\/]*Remote\)/\/\/\1/g'  ./node_modules/ngx-electron/lib/electron.service.d.ts

@@ -1,15 +1,31 @@
 const electronInstaller = require('electron-winstaller');
+const fs = require('fs');
+const path = require('path');
+
 (async() => {
   try {
-    d=new Date()
+    // Read version from package.json for SemVer compatibility
+    let version = '1.0.0'; // Default version
+    const packageJsonPath = path.join(__dirname, 'package.json');
+    if (fs.existsSync(packageJsonPath)) {
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+      if (packageJson.version) {
+        // Extract just the first 3 parts for SemVer (MAJOR.MINOR.PATCH)
+        const versionParts = packageJson.version.split('.');
+        version = `${versionParts[0] || '1'}.${versionParts[1] || '0'}.${versionParts[2] || '0'}`;
+      }
+    }
+    
     await electronInstaller.createWindowsInstaller({
       appDirectory: './dist_resume/resume-maloi-win32-x64',
       outputDirectory: 'dist_resume/installers/',
       authors: 'Mariano Aloi',
-      version:`${d.getYear()+1900}.${d.getMonth()+1}.${("00000" + ((d.getDate()*d.getHours()*d.getMinutes()*d.getSeconds())/65534)).slice(-5) }` ,
-      exe: 'resume-maloi.exe'
+      version: version,
+      exe: 'resume-maloi.exe',
+      setupExe: `resume-maloi-setup-${version}.exe`,
+      noMsi: true // Disable MSI generation to avoid version binding issues
     });
-    console.log('It worked!');
+    console.log(`It worked! Version: ${version}`);
   } catch (e) {
     console.log(`No dice: ${e.message}`);
   }
