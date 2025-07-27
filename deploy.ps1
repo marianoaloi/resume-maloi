@@ -2,7 +2,6 @@
 Set-Location $PSScriptRoot
 
 npm install
-(Get-Content ../resume-executable/node_modules/ngx-electron/lib/electron.service.d.ts).replace('readonly remote: Electron.Remote;','') | Set-Content ../resume-executable/node_modules/ngx-electron/lib/electron.service.d.ts
 npm run build
 Remove-Item -Force -Recurse -Path ../resume-executable/ -ErrorAction SilentlyContinue
 mkdir ../resume-executable/
@@ -31,6 +30,7 @@ $packageContent.scripts.buildele = "electron-packager . resume-maloi --platform=
 $packageContent | ConvertTo-Json -Depth 10 | Set-Content ../resume-executable/package.json
 node ./cleanNPMFile.js ../resume-executable/package.json
 Set-Location ../resume-executable/
+(Get-Content ../resume-executable/node_modules/ngx-electron/lib/electron.service.d.ts).replace('readonly remote: Electron.Remote;','') | Set-Content ../resume-executable/node_modules/ngx-electron/lib/electron.service.d.ts
 npm install --save-dev electron
 npm install  electron-context-menu
 npm install --save-dev electron-packager
