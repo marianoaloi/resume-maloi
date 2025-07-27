@@ -1,0 +1,48 @@
+name: Windows build Resume-Maloi
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-node:
+    permissions:
+      contents: write
+    runs-on: windows-latest
+
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        npm install --force
+        ./deploy.ps1
+        
+
+    - name: installer windows
+      uses: actions/upload-artifact@v3
+      with:
+        name: Installer windows
+        path: ../resume-executable/dist_resume/resume-maloi-win32-x64/resume-maloi.exe
+        retention-days: 5
+
+
+    - name: deploy release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: ../resume-executable/dist_resume/resume-maloi-win32-x64/resume-maloi.exe
+        body: "make executable resume-maloi"
+        tag: ${{ github.run_number }}
+        name: Release ${{ github.run_number }}
