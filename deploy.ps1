@@ -35,7 +35,7 @@ npm install --save-dev electron
 npm install  electron-context-menu
 npm install --save-dev electron-packager
 npm install --save-dev electron-winstaller
-(Get-Content node_modules/ngx-electron/lib/electron.service.d.ts).replace('readonly remote: Electron.Remote;','') | Set-Content node_modules/ngx-electron/lib/electron.service.d.ts
+# (Get-Content node_modules/ngx-electron/lib/electron.service.d.ts).replace('readonly remote: Electron.Remote;','') | Set-Content node_modules/ngx-electron/lib/electron.service.d.ts
 npm run buildele
 # electron-packager . resume-maloi --platform=win32 --arch=ia32 --overwrite --asar=true --icon=favicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="Resume Maloi"
 # npm run deb64
