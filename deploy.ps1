@@ -41,4 +41,8 @@ npm run buildele
 # npm run deb64
 npm run winBuild
 
+
+Start-Sleep 3
+Copy-Item ../resume-executable/dist/resume-maloi/* ../resume_maloi/dist/resume_maloi/
+
 Set-Location $PSScriptRoot

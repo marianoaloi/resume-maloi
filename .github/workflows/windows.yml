@@ -35,14 +35,14 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Installer windows
-        path: ../resume-executable/dist_resume/resume-maloi-win32-x64/resume-maloi.exe
+        path: dist_resume/*resume-maloi.exe
         retention-days: 5
 
 
     - name: deploy release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ../resume-executable/dist_resume/resume-maloi-win32-x64/resume-maloi.exe
+        artifacts: dist_resume/*resume-maloi.exe
         body: "make executable resume-maloi"
         tag: ${{ github.run_number }}
         name: Release ${{ github.run_number }}
