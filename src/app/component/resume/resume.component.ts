@@ -137,6 +137,13 @@ export class ResumeComponent {
             const methodKey = 'add' + key
             let valueArray = json[key]
             if (valueArray) {
+              if (valueArray[0].hasOwnProperty("value") && valueArray[0].hasOwnProperty("name"))
+                valueArray.sort((a: { value: number; name: string; }, b: { value: number; name: string; }) => (b.value !== a.value) ? b.value - a.value : a.name > b.name ? 1 : -1)
+             
+              if (valueArray[0].hasOwnProperty("issued") && valueArray[0].hasOwnProperty("name"))
+                valueArray.sort((a: { issued: string; name: string; }, b: { issued: string; name: string; }) => (b.issued !== a.issued) ? ( b.issued > a.issued ? 1 : b.issued < a.issued ? -1 : 0) : a.name > b.name ? 1 : -1)
+             if (valueArray[0].hasOwnProperty("end"))
+                valueArray.sort((a: { end: string; }, b: { end: string; }) => ( b.end > a.end ? 1 : b.end < a.end ? -1 : 0) )
               for (let index = 0; index < valueArray.length; index++) {
                 addArray(methodKey)
                 // Object.
