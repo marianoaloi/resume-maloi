@@ -43,6 +43,6 @@ npm run winBuild
 
 
 Start-Sleep 3
-Copy-Item ../resume-executable/dist_resume/* ../resume_maloi/dist/resume_maloi/
+Copy-Item ../resume-executable/dist_resume/* ../resume_maloi/dist/resume-maloi/
 
 Set-Location $PSScriptRoot

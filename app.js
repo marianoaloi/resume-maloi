@@ -69,9 +69,9 @@ ipcMain.on("open", async (event, dataScreen) => {
         if (stats) {
           var mtime = stats.mtime;
           if (lastSaved != mtime) {
-            console.log(
-              `Evento ${eventType} arquivo mudado as ${mtime.getTime()} e tem no sistema lastSaved ${lastSaved.getTime()}`
-            );
+            // console.log(
+            //   `Evento ${eventType} arquivo mudado as ${mtime.getTime()} e tem no sistema lastSaved ${lastSaved.getTime()}`
+            // );
             openfile(event);
           }
         }
