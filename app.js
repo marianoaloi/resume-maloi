@@ -1,15 +1,14 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
-const url = require("url");
 const path = require("path");
 const fs = require("fs");
 
-const contextMenu = require('electron-context-menu');
+// const contextMenu = require('electron-context-menu');
 
 let mainWindow;
 
-contextMenu({
-	showSaveImageAs: true
-});
+// contextMenu({
+// 	showSaveImageAs: true
+// });
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -54,7 +53,7 @@ app.on("activate", function () {
 });
 var fileGlobal;
 var lastSaved = new Date();
-ipcMain.on("open", async (event, dataScreen) => {
+ipcMain.on("open", async (event) => {
   let options = {
     filters: ["*.json"],
     properties: ["openFile"],
@@ -64,7 +63,7 @@ ipcMain.on("open", async (event, dataScreen) => {
   let files = await dialog.showOpenDialog(options);
   if (!files.canceled) {
     fileGlobal = files.filePaths[0];
-    fs.watch(fileGlobal, (eventType, filename) => {
+    fs.watch(fileGlobal, () => {
       fs.stat(fileGlobal, function (err, stats) {
         if (stats) {
           var mtime = stats.mtime;
